@@ -58,7 +58,8 @@ var networkModule = module {
         .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(get())
         .client(get())
-        .build() }
+        .build()
+    }
 
     single<NoteService> { get<Retrofit>().create(NoteService::class.java) }
     single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
