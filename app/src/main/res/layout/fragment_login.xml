@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.diegomedina.notesapp.presentation.view.auth.LoginViewModel" />
+            type="com.manubla.cinemapp.presentation.view.auth.LoginViewModel" />
     </data>
     <LinearLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
