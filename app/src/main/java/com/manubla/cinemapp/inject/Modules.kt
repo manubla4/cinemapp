@@ -17,6 +17,7 @@ import com.manubla.cinemapp.presentation.view.home.notes.NotesViewModel
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.manubla.cinemapp.BuildConfig
+import com.manubla.cinemapp.presentation.view.splash.SplashViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -90,4 +91,11 @@ var loginModule = module {
     single { PreferenceManager.getDefaultSharedPreferences(get()) }
 
     viewModel { LoginViewModel(get()) }
+}
+
+var splashModule = module {
+    single { AuthController(get(), get()) }
+    single { PreferenceManager.getDefaultSharedPreferences(get()) }
+
+    viewModel { SplashViewModel(get()) }
 }

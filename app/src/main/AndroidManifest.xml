@@ -24,7 +24,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".presentation.view.MainActivity"
+            android:name=".presentation.view.splash.SplashActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

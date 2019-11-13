@@ -4,6 +4,8 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Cinemapp.iml" filepath="$PROJECT_DIR$/Cinemapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cinemapp-Cinemapp.iml" filepath="$PROJECT_DIR$/cinemapp-Cinemapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/cinemapp-app.iml" filepath="$PROJECT_DIR$/app/cinemapp-app.iml" />
     </modules>
   </component>
 </project>
