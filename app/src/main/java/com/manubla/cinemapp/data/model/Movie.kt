@@ -7,17 +7,9 @@ import org.threeten.bp.ZonedDateTime
 
 @Entity
 data class Movie(
-    @PrimaryKey val id: Int,
-    @ColumnInfo val content: String,
-    @ColumnInfo(name = "created_by") val createdBy: String,
-    @ColumnInfo(name = "created_at") val createdAt: ZonedDateTime,
-    @ColumnInfo(name = "updated_at") val updatedAt: ZonedDateTime
-) {
-    constructor(id: Int, content: String, createdBy: String) : this(
-        id,
-        content,
-        createdBy,
-        ZonedDateTime.now(),
-        ZonedDateTime.now()
-    )
-}
+    @PrimaryKey val id: String,
+    @ColumnInfo(name = "original_title") val originalTitle: String,
+    @ColumnInfo(name = "vote_average") val voteAverage: Double,
+    @ColumnInfo(name = "release_date") val releaseDate: ZonedDateTime,
+    @ColumnInfo(name = "poster_path") val posterPath: String
+)

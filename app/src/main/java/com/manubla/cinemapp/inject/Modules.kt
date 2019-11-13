@@ -6,7 +6,7 @@ import androidx.room.Room
 import com.manubla.cinemapp.data.controller.AuthController
 import com.manubla.cinemapp.data.helper.adapter.ZonedDateTimeAdapter
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
-import com.manubla.cinemapp.data.repository.NotesSourceDataRepository
+import com.manubla.cinemapp.data.repository.DataNotesSourceRepository
 import com.manubla.cinemapp.data.repository.NotesSourceRepository
 import com.manubla.cinemapp.data.repository.notes.NotesDataStoreFactory
 import com.manubla.cinemapp.data.service.AuthService
@@ -81,7 +81,7 @@ var databaseModule = module {
 
 var notesModule = module {
     single { NotesDataStoreFactory(get(), get(), get()) }
-    single<NotesSourceRepository> { NotesSourceDataRepository(get()) }
+    single<NotesSourceRepository> { DataNotesSourceRepository(get()) }
 
     viewModel { NotesViewModel(get()) }
 }
