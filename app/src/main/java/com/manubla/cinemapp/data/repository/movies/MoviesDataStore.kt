@@ -4,5 +4,5 @@ import com.manubla.cinemapp.data.model.MoviesPage
 
 interface MoviesDataStore {
 
-    suspend fun getMoviesPage(): MoviesPage
+    suspend fun getMoviesPage(page: Int): MoviesPage
 }

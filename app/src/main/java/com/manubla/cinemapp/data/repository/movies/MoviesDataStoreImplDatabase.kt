@@ -5,7 +5,7 @@ import com.manubla.cinemapp.data.model.MoviesPage
 
 class MoviesDataStoreImplDatabase(private val moviesPageDao: MoviesPageDao) : MoviesDataStore {
 
-    override suspend fun getMoviesPage(): MoviesPage {
-        return moviesPageDao.getAll()
+    override suspend fun getMoviesPage(page: Int): MoviesPage {
+        return moviesPageDao.get(page)
     }
 }

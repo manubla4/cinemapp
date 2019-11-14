@@ -5,8 +5,8 @@ import com.manubla.cinemapp.data.repository.movies.MoviesDataStoreFactory
 
 class MoviesSourceRepositoryImpl(var factory: MoviesDataStoreFactory) : MoviesSourceRepository {
 
-    override suspend fun getMoviesPage(): MoviesPage {
-        return factory.moviesDataStoreFactory.getMoviesPage()
+    override suspend fun getMoviesPage(page: Int): MoviesPage {
+        return factory.moviesDataStoreFactory.getMoviesPage(page)
     }
 
 }

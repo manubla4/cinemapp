@@ -10,7 +10,10 @@ import com.manubla.cinemapp.data.model.MoviesPage
 interface MoviesPageDao {
 
     @Query("SELECT * FROM moviespage")
-    suspend fun getAll(): MoviesPage
+    suspend fun getAll(): List<MoviesPage>
+
+    @Query("SELECT * FROM moviespage WHERE page=:page ")
+    suspend fun get(page: Int): MoviesPage
 
     @Insert
     suspend fun insertAll(vararg moviesPages: MoviesPage)

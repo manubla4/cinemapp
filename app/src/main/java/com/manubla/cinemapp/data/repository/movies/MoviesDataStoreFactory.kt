@@ -20,5 +20,4 @@ open class MoviesDataStoreFactory(
         else
             MoviesDataStoreImplDatabase(dao)
 
-
 }

@@ -9,5 +9,4 @@ class MovieController(
         movieService.getMovies()
         return true
     }
-
 }

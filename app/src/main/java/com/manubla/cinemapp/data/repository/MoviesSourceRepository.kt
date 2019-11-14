@@ -4,5 +4,5 @@ import com.manubla.cinemapp.data.model.MoviesPage
 
 interface MoviesSourceRepository {
 
-    suspend fun getMoviesPage(): MoviesPage
+    suspend fun getMoviesPage(page: Int): MoviesPage
 }

@@ -5,8 +5,8 @@ import com.manubla.cinemapp.data.service.MovieService
 
 class MoviesDataStoreImplCloud(private var movieService: MovieService) : MoviesDataStore {
 
-    override suspend fun getMoviesPage(): MoviesPage {
-        return movieService.getMoviesPage()
+    override suspend fun getMoviesPage(page: Int): MoviesPage {
+        return movieService.getMoviesPage(page)
         //TODO here we store results on the database
     }
 

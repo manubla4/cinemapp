@@ -6,5 +6,5 @@ import retrofit2.http.GET
 interface MovieService {
 
     @GET("notes") //TODO
-    suspend fun getMoviesPage(): MoviesPage
+    suspend fun getMoviesPage(page: Int): MoviesPage
 }
