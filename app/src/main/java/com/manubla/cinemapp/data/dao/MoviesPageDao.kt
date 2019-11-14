@@ -4,19 +4,19 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import com.manubla.cinemapp.data.model.Note
+import com.manubla.cinemapp.data.model.MoviesPage
 
 @Dao
-interface NoteDao {
+interface MoviesPageDao {
 
-    @Query("SELECT * FROM note")
-    suspend fun getAll(): List<Note>
+    @Query("SELECT * FROM moviespage")
+    suspend fun getAll(): MoviesPage
 
     @Insert
-    suspend fun insertAll(vararg notes: Note)
+    suspend fun insertAll(vararg moviesPages: MoviesPage)
 
     @Delete
-    suspend fun delete(note: Note)
+    suspend fun delete(moviesPage: MoviesPage)
 
 //    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
 //    suspend fun loadAllByIds(userIds: IntArray): List<User>

@@ -8,21 +8,19 @@ import com.manubla.cinemapp.R
 import com.manubla.cinemapp.presentation.view.home.HomeActivity
 
 class SplashActivity : AppCompatActivity() {
-    private val viewModel: SplashViewModel by viewModel()
+    private val splashViewModel: SplashViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel.loadingSuccess.observe(this, Observer(this::loadingSuccessChanged))
-        viewModel.loadMovies()
+        splashViewModel.loadingSuccess.observe(this, Observer(this::loadingSuccessChanged))
+        splashViewModel.loadMovies()
     }
 
 
     private fun loadingSuccessChanged(success: Boolean) {
-        if (success)
-            startActivity(Intent(this, HomeActivity::class.java))
-
+        startActivity(Intent(this, HomeActivity::class.java))
         finish()
     }
 

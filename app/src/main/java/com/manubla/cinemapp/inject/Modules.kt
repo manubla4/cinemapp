@@ -3,20 +3,19 @@ package com.manubla.cinemapp.inject
 import android.content.Context
 import android.preference.PreferenceManager
 import androidx.room.Room
-import com.manubla.cinemapp.data.controller.AuthController
-import com.manubla.cinemapp.data.helper.adapter.ZonedDateTimeAdapter
-import com.manubla.cinemapp.data.helper.networking.NetworkingManager
-import com.manubla.cinemapp.data.repository.DataNotesSourceRepository
-import com.manubla.cinemapp.data.repository.NotesSourceRepository
-import com.manubla.cinemapp.data.repository.notes.NotesDataStoreFactory
-import com.manubla.cinemapp.data.service.AuthService
-import com.manubla.cinemapp.data.service.NoteService
-import com.manubla.cinemapp.data.source.AppDatabase
-import com.manubla.cinemapp.presentation.view.auth.LoginViewModel
-import com.manubla.cinemapp.presentation.view.home.notes.NotesViewModel
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.manubla.cinemapp.BuildConfig
+import com.manubla.cinemapp.data.controller.AuthController
+import com.manubla.cinemapp.data.helper.adapter.ZonedDateTimeAdapter
+import com.manubla.cinemapp.data.helper.networking.NetworkingManager
+import com.manubla.cinemapp.data.repository.MoviesSourceRepository
+import com.manubla.cinemapp.data.repository.MoviesSourceRepositoryImpl
+import com.manubla.cinemapp.data.repository.movies.MoviesDataStoreFactory
+import com.manubla.cinemapp.data.service.AuthService
+import com.manubla.cinemapp.data.service.MovieService
+import com.manubla.cinemapp.data.source.AppDatabase
+import com.manubla.cinemapp.presentation.view.auth.LoginViewModel
 import com.manubla.cinemapp.presentation.view.splash.SplashViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -62,7 +61,7 @@ var networkModule = module {
         .build()
     }
 
-    single<NoteService> { get<Retrofit>().create(NoteService::class.java) }
+    single<MovieService> { get<Retrofit>().create(MovieService::class.java) }
     single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
 }
 
@@ -76,14 +75,14 @@ var databaseModule = module {
         .fallbackToDestructiveMigration()
         .build()
     }
-    single { get<AppDatabase>().noteDao() }
+    single { get<AppDatabase>().movieDao() }
 }
 
-var notesModule = module {
-    single { NotesDataStoreFactory(get(), get(), get()) }
-    single<NotesSourceRepository> { DataNotesSourceRepository(get()) }
+var moviesModule = module {
+    single { MoviesDataStoreFactory(get(), get(), get()) }
+    single<MoviesSourceRepository> { MoviesSourceRepositoryImpl(get()) }
 
-    viewModel { NotesViewModel(get()) }
+    viewModel { SplashViewModel(get()) }
 }
 
 var loginModule = module {
@@ -91,11 +90,4 @@ var loginModule = module {
     single { PreferenceManager.getDefaultSharedPreferences(get()) }
 
     viewModel { LoginViewModel(get()) }
-}
-
-var splashModule = module {
-    single { AuthController(get(), get()) }
-    single { PreferenceManager.getDefaultSharedPreferences(get()) }
-
-    viewModel { SplashViewModel(get()) }
 }

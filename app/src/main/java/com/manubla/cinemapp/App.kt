@@ -8,7 +8,7 @@ import com.jakewharton.threetenabp.AndroidThreeTen
 import com.manubla.cinemapp.inject.databaseModule
 import com.manubla.cinemapp.inject.loginModule
 import com.manubla.cinemapp.inject.networkModule
-import com.manubla.cinemapp.inject.notesModule
+import com.manubla.cinemapp.inject.moviesModule
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -24,7 +24,7 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(listOf(notesModule, loginModule, networkModule, databaseModule))
+            modules(listOf(moviesModule, loginModule, networkModule, databaseModule))
         }
 
         // Initializing LocalDate backport

@@ -7,13 +7,14 @@ import androidx.lifecycle.ViewModel
 import com.manubla.cinemapp.data.controller.AuthController
 import com.manubla.cinemapp.data.controller.MovieController
 import com.manubla.cinemapp.data.model.Movie
+import com.manubla.cinemapp.data.repository.MoviesSourceRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
-class SplashViewModel(private val movieController: MovieController) : ViewModel(), CoroutineScope {
+class SplashViewModel(private val repository: MoviesSourceRepository) : ViewModel(), CoroutineScope {
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
@@ -25,12 +26,10 @@ class SplashViewModel(private val movieController: MovieController) : ViewModel(
     fun loadMovies() {
         launch(Dispatchers.IO) {
             try {
-                val notes = repository.getMovies()
-                localNotes.postValue(notes)
+                repository.getMoviesPage()
+                localLoadingSuccess.postValue(true)
             } catch (error: Exception) {
-
-            } finally {
-                localIsLoading.postValue(false)
+                localLoadingSuccess.postValue(false)
             }
         }
     }
