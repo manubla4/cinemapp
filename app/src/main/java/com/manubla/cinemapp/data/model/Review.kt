@@ -19,7 +19,7 @@ data class Review(
     @PrimaryKey val id: String,
     val content: String,
     val author: String,
-    @ColumnInfo(name = "movie_id") val movieId: Int
+    @ColumnInfo(name = "movie_id") val movieId: Int?
 ): Parcelable {
     companion object {
         const val TABLE_NAME = "reviews"

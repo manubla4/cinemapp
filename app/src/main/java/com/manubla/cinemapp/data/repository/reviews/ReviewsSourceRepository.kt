@@ -1,9 +1,9 @@
 package com.manubla.cinemapp.data.repository.reviews
 
-import com.manubla.cinemapp.data.model.Movie
-import com.manubla.cinemapp.data.service.response.PageResponse
+import com.manubla.cinemapp.data.model.Review
+import com.manubla.cinemapp.data.service.response.ReviewsPageResponse
 
 interface ReviewsSourceRepository {
-    suspend fun getMoviesPage(page: Int): PageResponse
-    suspend fun storeMovies(movies: List<Movie>)
+    suspend fun getReviewsPage(movieId: Int, page: Int): ReviewsPageResponse
+    suspend fun storeReviews(reviews: List<Review>)
 }

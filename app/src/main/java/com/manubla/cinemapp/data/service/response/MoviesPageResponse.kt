@@ -5,7 +5,7 @@ import com.manubla.cinemapp.data.model.Movie
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PageResponse (
+data class MoviesPageResponse (
     val page: Int,
     val results: List<Movie>,
     val fromCloud: Boolean = true

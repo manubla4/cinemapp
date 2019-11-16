@@ -7,9 +7,9 @@ import com.manubla.cinemapp.data.dao.MovieDao
 import com.manubla.cinemapp.data.dao.MoviesPageDao
 import com.manubla.cinemapp.data.helper.converter.Converters
 import com.manubla.cinemapp.data.model.Movie
-import com.manubla.cinemapp.data.service.response.PageResponse
+import com.manubla.cinemapp.data.service.response.MoviesPageResponse
 
-@Database(entities = [PageResponse::class, Movie::class], version = 1, exportSchema = false)
+@Database(entities = [MoviesPageResponse::class, Movie::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao

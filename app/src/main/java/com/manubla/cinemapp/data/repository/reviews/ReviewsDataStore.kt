@@ -1,7 +1,7 @@
 package com.manubla.cinemapp.data.repository.reviews
 
-import com.manubla.cinemapp.data.service.response.PageResponse
+import com.manubla.cinemapp.data.service.response.ReviewsPageResponse
 
 interface ReviewsDataStore {
-    suspend fun getMoviesPage(page: Int): PageResponse
+    suspend fun getReviewsPage(movieId: Int, page: Int): ReviewsPageResponse
 }

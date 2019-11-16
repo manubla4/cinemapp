@@ -1,21 +1,21 @@
 package com.manubla.cinemapp.data.repository.reviews
 
-import com.manubla.cinemapp.data.dao.MovieDao
+import com.manubla.cinemapp.data.dao.ReviewDao
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
-import com.manubla.cinemapp.data.service.MovieService
+import com.manubla.cinemapp.data.service.ReviewService
 
 @Suppress("UNUSED_PARAMETER")
 open class ReviewsDataStoreFactory(
-    var service: MovieService,
-    var dao: MovieDao,
+    var service: ReviewService,
+    var dao: ReviewDao,
     var networkingManager: NetworkingManager
 ) {
 
-    val moviesDataStoreFactory: ReviewsDataStore
+    val reviewsDataStoreFactory: ReviewsDataStore
         get() = createDataStoreFactory()
-    val moviesDataStoreCloud: ReviewsDataStoreImplCloud
+    val reviewsDataStoreCloud: ReviewsDataStoreImplCloud
         get() = createDataStoreCloud()
-    val moviesDataStoreDatabase: ReviewsDataStoreImplDatabase
+    val reviewsDataStoreDatabase: ReviewsDataStoreImplDatabase
         get() = createDataStoreDatabase()
 
 

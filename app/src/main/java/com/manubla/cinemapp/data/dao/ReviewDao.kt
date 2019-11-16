@@ -9,8 +9,8 @@ interface ReviewDao {
     @Query("SELECT * FROM ${Review.TABLE_NAME}")
     suspend fun getAll(): List<Review>
 
-    @Query("SELECT * FROM ${Review.TABLE_NAME} WHERE movie_id=:movieId")
-    suspend fun getAllForMovie(movieId: Int): List<Review>
+    @Query("SELECT * FROM ${Review.TABLE_NAME} WHERE movie_id=:movieId LIMIT :limit, :rows")
+    suspend fun getAllForMovieWithLimit(movieId: Int, limit: Int, rows: Int): List<Review>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(reviews: List<Review>)

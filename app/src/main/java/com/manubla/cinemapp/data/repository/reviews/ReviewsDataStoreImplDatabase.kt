@@ -1,20 +1,20 @@
 package com.manubla.cinemapp.data.repository.reviews
 
-import com.manubla.cinemapp.data.dao.MovieDao
-import com.manubla.cinemapp.data.model.Movie
-import com.manubla.cinemapp.data.service.response.PageResponse
+import com.manubla.cinemapp.data.dao.ReviewDao
+import com.manubla.cinemapp.data.model.Review
+import com.manubla.cinemapp.data.service.response.ReviewsPageResponse
 
-class ReviewsDataStoreImplDatabase(private val movieDao: MovieDao) : ReviewsDataStore {
-    private val pageRows = 20
+class ReviewsDataStoreImplDatabase(private val reviewDao: ReviewDao) : ReviewsDataStore {
+    private val pageRows = 10
 
-    override suspend fun getMoviesPage(page: Int): PageResponse {
+    override suspend fun getReviewsPage(movieId: Int, page: Int): ReviewsPageResponse {
         val limit = (page - 1) * pageRows
-        val results = movieDao.getAllWithLimit(limit, pageRows)
-        return PageResponse(page, results, false)
+        val results = reviewDao.getAllForMovieWithLimit(movieId, limit, pageRows)
+        return ReviewsPageResponse(page, results, false)
     }
 
-    suspend fun storeMovies(movies: List<Movie>) {
-        movieDao.insertAll(movies)
+    suspend fun storeReviews(reviews: List<Review>) {
+        reviewDao.insertAll(reviews)
     }
 
 }

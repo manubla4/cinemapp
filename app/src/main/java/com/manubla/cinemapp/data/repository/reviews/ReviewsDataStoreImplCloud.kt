@@ -1,19 +1,12 @@
 package com.manubla.cinemapp.data.repository.reviews
 
-import com.manubla.cinemapp.data.service.MovieService
-import com.manubla.cinemapp.data.service.response.PageResponse
+import com.manubla.cinemapp.data.service.ReviewService
+import com.manubla.cinemapp.data.service.response.ReviewsPageResponse
 
-class ReviewsDataStoreImplCloud(private var movieService: MovieService) : ReviewsDataStore {
+class ReviewsDataStoreImplCloud(private var reviewService: ReviewService) : ReviewsDataStore {
 
-    private val popularityDescendant = "popularity.desc"
-
-    override suspend fun getMoviesPage(page: Int): PageResponse {
-        return movieService.getMoviesPage(
-            popularityDescendant,
-            includeAdult = false,
-            includeVideo = false,
-            page = page
-        )
+    override suspend fun getReviewsPage(movieId: Int, page: Int): ReviewsPageResponse {
+        return reviewService.getReviewsPage(movieId, page)
     }
 
 }
