@@ -1,21 +1,17 @@
 package com.manubla.cinemapp.inject
 
 import android.content.Context
-import android.preference.PreferenceManager
 import androidx.room.Room
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
 import com.manubla.cinemapp.BuildConfig
-import com.manubla.cinemapp.data.controller.AuthController
 import com.manubla.cinemapp.data.helper.adapter.ZonedDateTimeAdapter
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
-import com.manubla.cinemapp.data.repository.MoviesSourceRepository
-import com.manubla.cinemapp.data.repository.MoviesSourceRepositoryImpl
 import com.manubla.cinemapp.data.repository.movies.MoviesDataStoreFactory
-import com.manubla.cinemapp.data.service.AuthService
+import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepository
+import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepositoryImpl
 import com.manubla.cinemapp.data.service.MovieService
 import com.manubla.cinemapp.data.source.AppDatabase
-import com.manubla.cinemapp.presentation.view.auth.LoginViewModel
 import com.manubla.cinemapp.presentation.view.splash.SplashViewModel
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -46,7 +42,8 @@ var networkModule = module {
             .addInterceptor { chain ->
                 val request = chain.request()
                     .newBuilder()
-                    .addHeader("Authorization", BuildConfig.ACCESS_TOKEN)
+                    .addHeader("Authorization",
+                        "Bearer " + BuildConfig.BEARER_TOKEN)
                     .build()
                 chain.proceed(request)
             }
@@ -61,8 +58,9 @@ var networkModule = module {
         .build()
     }
 
-    single<MovieService> { get<Retrofit>().create(MovieService::class.java) }
-    single<AuthService> { get<Retrofit>().create(AuthService::class.java) }
+    single<MovieService> {
+        get<Retrofit>().create(MovieService::class.java)
+    }
 }
 
 var databaseModule = module {
@@ -80,14 +78,9 @@ var databaseModule = module {
 
 var moviesModule = module {
     single { MoviesDataStoreFactory(get(), get(), get()) }
-    single<MoviesSourceRepository> { MoviesSourceRepositoryImpl(get()) }
+    single<MoviesSourceRepository> {
+        MoviesSourceRepositoryImpl(get())
+    }
 
     viewModel { SplashViewModel(get()) }
-}
-
-var loginModule = module {
-    single { AuthController(get(), get()) }
-    single { PreferenceManager.getDefaultSharedPreferences(get()) }
-
-    viewModel { LoginViewModel(get()) }
 }

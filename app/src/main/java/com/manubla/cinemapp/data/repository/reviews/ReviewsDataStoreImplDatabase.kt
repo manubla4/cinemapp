@@ -1,10 +1,10 @@
-package com.manubla.cinemapp.data.repository.movies
+package com.manubla.cinemapp.data.repository.reviews
 
 import com.manubla.cinemapp.data.dao.MovieDao
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.service.response.PageResponse
 
-class MoviesDataStoreImplDatabase(private val movieDao: MovieDao) : MoviesDataStore {
+class ReviewsDataStoreImplDatabase(private val movieDao: MovieDao) : ReviewsDataStore {
     private val pageRows = 20
 
     override suspend fun getMoviesPage(page: Int): PageResponse {

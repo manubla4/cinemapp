@@ -1,10 +1,14 @@
 package com.manubla.cinemapp.data.service
 
-import com.manubla.cinemapp.data.model.MoviesPage
+import com.manubla.cinemapp.data.service.response.PageResponse
 import retrofit2.http.GET
+import retrofit2.http.Query
 
 interface MovieService {
 
-    @GET("notes") //TODO
-    suspend fun getMoviesPage(page: Int): MoviesPage
+    @GET("discover/movie")
+    suspend fun getMoviesPage(@Query("sort_by") sortBy: String,
+                              @Query("include_adult") includeAdult: Boolean,
+                              @Query("include_video") includeVideo: Boolean,
+                              @Query("page") page: Int): PageResponse
 }

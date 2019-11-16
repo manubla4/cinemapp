@@ -1,9 +1,9 @@
-package com.manubla.cinemapp.data.repository.movies
+package com.manubla.cinemapp.data.repository.reviews
 
 import com.manubla.cinemapp.data.service.MovieService
 import com.manubla.cinemapp.data.service.response.PageResponse
 
-class MoviesDataStoreImplCloud(private var movieService: MovieService) : MoviesDataStore {
+class ReviewsDataStoreImplCloud(private var movieService: MovieService) : ReviewsDataStore {
 
     private val popularityDescendant = "popularity.desc"
 

@@ -1,28 +1,21 @@
 package com.manubla.cinemapp.data.dao
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.manubla.cinemapp.data.model.Movie
-import com.manubla.cinemapp.data.model.Note
 
 @Dao
 interface MovieDao {
 
-    @Query("SELECT * FROM movie")
+    @Query("SELECT * FROM ${Movie.TABLE_NAME}")
     suspend fun getAll(): List<Movie>
 
-    @Insert
-    suspend fun insertAll(vararg movies: Movie)
+    @Query("SELECT * FROM ${Movie.TABLE_NAME} LIMIT :limit, :rows")
+    suspend fun getAllWithLimit(limit: Int, rows: Int): List<Movie>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(movies: List<Movie>)
 
     @Delete
     suspend fun delete(movie: Movie)
 
-//    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
-//    suspend fun loadAllByIds(userIds: IntArray): List<User>
-//
-//    @Query("SELECT * FROM user WHERE first_name LIKE :first AND " +
-//            "last_name LIKE :last LIMIT 1")
-//    suspend fun findByName(first: String, last: String): User
 }
