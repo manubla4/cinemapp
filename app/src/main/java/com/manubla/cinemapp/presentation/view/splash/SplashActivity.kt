@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.manubla.cinemapp.R
+import com.manubla.cinemapp.data.service.response.MoviesPageResponse
 import com.manubla.cinemapp.presentation.view.home.HomeActivity
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SplashActivity : AppCompatActivity() {
     private val splashViewModel: SplashViewModel by viewModel()
@@ -14,13 +16,15 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        splashViewModel.loadingSuccess.observe(this, Observer(this::loadingSuccessChanged))
-        splashViewModel.loadMovies()
+        splashViewModel.moviesPage.observe(this, Observer(this::moviesPageChanged))
+        splashViewModel.fetchData()
     }
 
 
-    private fun loadingSuccessChanged(success: Boolean) {
-        startActivity(Intent(this, HomeActivity::class.java))
+    private fun moviesPageChanged(moviesPage: MoviesPageResponse) {
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.putExtra(HomeActivity.MoviesPageKey, moviesPage)
+        startActivity(intent)
         finish()
     }
 

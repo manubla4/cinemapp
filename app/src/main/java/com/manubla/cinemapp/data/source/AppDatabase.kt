@@ -3,15 +3,21 @@ package com.manubla.cinemapp.data.source
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.manubla.cinemapp.data.dao.GenreDao
 import com.manubla.cinemapp.data.dao.MovieDao
-import com.manubla.cinemapp.data.dao.MoviesPageDao
+import com.manubla.cinemapp.data.dao.MovieGenreDao
+import com.manubla.cinemapp.data.dao.ReviewDao
 import com.manubla.cinemapp.data.helper.converter.Converters
+import com.manubla.cinemapp.data.model.Genre
 import com.manubla.cinemapp.data.model.Movie
-import com.manubla.cinemapp.data.service.response.MoviesPageResponse
+import com.manubla.cinemapp.data.model.MovieGenre
+import com.manubla.cinemapp.data.model.Review
 
-@Database(entities = [MoviesPageResponse::class, Movie::class], version = 1, exportSchema = false)
+@Database(entities = [Movie::class, Review::class, Genre::class, MovieGenre::class], version = 1, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
-    abstract fun moviesPageDao(): MoviesPageDao
+    abstract fun reviewDao(): ReviewDao
+    abstract fun genreDao(): GenreDao
+    abstract fun movieGenreDao(): MovieGenreDao
 }

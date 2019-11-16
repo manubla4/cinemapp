@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepository
+import com.manubla.cinemapp.data.service.response.MoviesPageResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -13,18 +14,19 @@ class SplashViewModel(private val repository: MoviesSourceRepository) : ViewMode
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    val loadingSuccess: LiveData<Boolean>
-        get() = localLoadingSuccess
+    val moviesPage: LiveData<MoviesPageResponse>
+        get() = localMoviesPage
 
-    private val localLoadingSuccess = MutableLiveData<Boolean>()
+    private val localMoviesPage = MutableLiveData<MoviesPageResponse>()
 
-    fun loadMovies() {
+    fun fetchData() {
         launch(Dispatchers.IO) {
             try {
-                repository.getMoviesPage()
-                localLoadingSuccess.postValue(true)
+                val moviesPage = repository.getMoviesPage(1)
+                localMoviesPage.postValue(moviesPage)
             } catch (error: Exception) {
-                localLoadingSuccess.postValue(false)
+                val moviesPage = MoviesPageResponse(1, listOf(), false)
+                localMoviesPage.postValue(moviesPage)
             }
         }
     }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools" package="com.manubla.cinemapp">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.manubla.cinemapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -17,10 +18,6 @@
 
         <activity
             android:name=".presentation.view.home.HomeActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".presentation.view.auth.AuthActivity"
             android:screenOrientation="portrait"/>
 
         <activity

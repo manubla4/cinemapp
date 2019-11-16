@@ -18,8 +18,8 @@ import kotlinx.android.parcel.Parcelize
     )]
 )
 data class MovieGenre (
-    @ColumnInfo(name = "movie_id") val movieId: Int,
-    @ColumnInfo(name = "genre_id") val genreId: Int
+    @ColumnInfo(name = "movie_id") var movieId: Int,
+    @ColumnInfo(name = "genre_id") var genreId: Int
 ): Parcelable {
     companion object {
         const val TABLE_NAME = "moviegenres"

@@ -8,8 +8,8 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = Genre.TABLE_NAME)
 data class Genre(
-    @PrimaryKey val id: Int,
-    val name: String
+    @PrimaryKey var id: Int,
+    var name: String
 ): Parcelable {
     companion object {
         const val TABLE_NAME = "genres"

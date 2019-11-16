@@ -16,10 +16,10 @@ import kotlinx.android.parcel.Parcelize
             onDelete = CASCADE)]
 )
 data class Review(
-    @PrimaryKey val id: String,
-    val content: String,
-    val author: String,
-    @ColumnInfo(name = "movie_id") val movieId: Int?
+    @PrimaryKey var id: String,
+    var content: String,
+    var author: String,
+    @ColumnInfo(name = "movie_id") var movieId: Int?
 ): Parcelable {
     companion object {
         const val TABLE_NAME = "reviews"

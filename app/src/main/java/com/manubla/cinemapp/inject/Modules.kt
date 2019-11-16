@@ -10,20 +10,26 @@ import com.manubla.cinemapp.data.helper.networking.NetworkingManager
 import com.manubla.cinemapp.data.repository.movies.MoviesDataStoreFactory
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepository
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepositoryImpl
+import com.manubla.cinemapp.data.repository.reviews.ReviewsDataStoreFactory
+import com.manubla.cinemapp.data.repository.reviews.ReviewsSourceRepository
+import com.manubla.cinemapp.data.repository.reviews.ReviewsSourceRepositoryImpl
 import com.manubla.cinemapp.data.service.MovieService
+import com.manubla.cinemapp.data.service.ReviewService
 import com.manubla.cinemapp.data.source.AppDatabase
 import com.manubla.cinemapp.presentation.view.splash.SplashViewModel
+import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import org.threeten.bp.ZonedDateTime
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 var networkModule = module {
     single { NetworkingManager(get()) }
-    single<GsonConverterFactory> {
+    single<Converter.Factory> {
         GsonConverterFactory.create(
             GsonBuilder()
                 .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -34,6 +40,7 @@ var networkModule = module {
 
     single {
         OkHttpClient.Builder()
+            .addInterceptor(ChuckInterceptor(get()))
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
@@ -61,6 +68,9 @@ var networkModule = module {
     single<MovieService> {
         get<Retrofit>().create(MovieService::class.java)
     }
+    single<ReviewService> {
+        get<Retrofit>().create(ReviewService::class.java)
+    }
 }
 
 var databaseModule = module {
@@ -74,6 +84,9 @@ var databaseModule = module {
         .build()
     }
     single { get<AppDatabase>().movieDao() }
+    single { get<AppDatabase>().reviewDao() }
+    single { get<AppDatabase>().genreDao() }
+    single { get<AppDatabase>().movieGenreDao() }
 }
 
 var moviesModule = module {
@@ -81,6 +94,12 @@ var moviesModule = module {
     single<MoviesSourceRepository> {
         MoviesSourceRepositoryImpl(get())
     }
-
     viewModel { SplashViewModel(get()) }
+}
+
+var reviewsModule = module {
+    single { ReviewsDataStoreFactory(get(), get(), get()) }
+    single<ReviewsSourceRepository> {
+        ReviewsSourceRepositoryImpl(get())
+    }
 }
