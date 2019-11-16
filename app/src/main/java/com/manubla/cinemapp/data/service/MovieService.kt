@@ -7,7 +7,8 @@ import retrofit2.http.Query
 interface MovieService {
 
     @GET("discover/movie")
-    suspend fun getMoviesPage(@Query("sort_by") sortBy: String,
+    suspend fun getMoviesPage(@Query("language") language: String,
+                              @Query("sort_by") sortBy: String,
                               @Query("include_adult") includeAdult: Boolean,
                               @Query("include_video") includeVideo: Boolean,
                               @Query("page") page: Int): MoviesPageResponse

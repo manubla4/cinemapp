@@ -23,6 +23,7 @@ class SplashViewModel(private val repository: MoviesSourceRepository) : ViewMode
         launch(Dispatchers.IO) {
             try {
                 val moviesPage = repository.getMoviesPage(1)
+                repository.storeMovies(moviesPage.results)
                 localMoviesPage.postValue(moviesPage)
             } catch (error: Exception) {
                 val moviesPage = MoviesPageResponse(1, listOf(), false)
