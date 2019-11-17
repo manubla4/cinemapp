@@ -19,17 +19,20 @@ data class Movie (
     @ColumnInfo(name = "favorite_date") var favoriteDate: ZonedDateTime?,
     @ColumnInfo(name = "vote_average") @SerializedName("vote_average") var voteAverage: Double,
     @ColumnInfo(name = "release_date") @SerializedName("release_date") var releaseDate: ZonedDateTime,
-    @ColumnInfo(name = "poster_path") @SerializedName("poster_path") var posterPath: String?
+    @ColumnInfo(name = "poster_path") @SerializedName("poster_path") var posterPath: String?,
+    @ColumnInfo(name = "poster_local_path") var posterLocalPath: String?
 ): Parcelable {
 
     constructor(id: Int,
-                overview: String,
                 title: String,
+                overview: String,
+                favoriteDate: ZonedDateTime?,
                 voteAverage: Double,
                 releaseDate: ZonedDateTime,
-                posterPath: String?)
-            : this(id, title, overview, null, null,
-                    voteAverage, releaseDate, posterPath)
+                posterPath: String?,
+                posterLocalPath: String?)
+            : this(id, title, overview, null, favoriteDate, voteAverage,
+                    releaseDate, posterPath, posterLocalPath)
 
     companion object {
         const val TABLE_NAME = "movies"

@@ -5,10 +5,7 @@ import android.app.Application
 import android.os.Bundle
 import com.facebook.stetho.Stetho
 import com.jakewharton.threetenabp.AndroidThreeTen
-import com.manubla.cinemapp.inject.databaseModule
-import com.manubla.cinemapp.inject.moviesModule
-import com.manubla.cinemapp.inject.networkModule
-import com.manubla.cinemapp.inject.reviewsModule
+import com.manubla.cinemapp.inject.*
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -23,7 +20,9 @@ class App : Application() {
         startKoin {
             androidLogger()
             androidContext(this@App)
-            modules(listOf(networkModule, databaseModule, moviesModule, reviewsModule))
+            modules(listOf(networkModule, databaseModule,
+                configurationModule, moviesModule, reviewsModule,
+                viewModelsModule))
         }
 
         // Initializing LocalDate backport

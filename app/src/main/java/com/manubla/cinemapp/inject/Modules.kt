@@ -7,12 +7,16 @@ import com.google.gson.GsonBuilder
 import com.manubla.cinemapp.BuildConfig
 import com.manubla.cinemapp.data.helper.adapter.ZonedDateTimeAdapter
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
+import com.manubla.cinemapp.data.repository.configuration.ConfigurationDataStoreFactory
+import com.manubla.cinemapp.data.repository.configuration.ConfigurationSourceRepository
+import com.manubla.cinemapp.data.repository.configuration.ConfigurationSourceRepositoryImpl
 import com.manubla.cinemapp.data.repository.movies.MoviesDataStoreFactory
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepository
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepositoryImpl
 import com.manubla.cinemapp.data.repository.reviews.ReviewsDataStoreFactory
 import com.manubla.cinemapp.data.repository.reviews.ReviewsSourceRepository
 import com.manubla.cinemapp.data.repository.reviews.ReviewsSourceRepositoryImpl
+import com.manubla.cinemapp.data.service.ConfigurationService
 import com.manubla.cinemapp.data.service.MovieService
 import com.manubla.cinemapp.data.service.ReviewService
 import com.manubla.cinemapp.data.source.AppDatabase
@@ -49,6 +53,8 @@ var networkModule = module {
             .addInterceptor { chain ->
                 val request = chain.request()
                     .newBuilder()
+                    .addHeader("Content-Type",
+                        "application/json")
                     .addHeader("Authorization",
                         "Bearer " + BuildConfig.BEARER_TOKEN)
                     .build()
@@ -71,6 +77,9 @@ var networkModule = module {
     single<ReviewService> {
         get<Retrofit>().create(ReviewService::class.java)
     }
+    single<ConfigurationService> {
+        get<Retrofit>().create(ConfigurationService::class.java)
+    }
 }
 
 var databaseModule = module {
@@ -89,12 +98,18 @@ var databaseModule = module {
     single { get<AppDatabase>().movieGenreDao() }
 }
 
+var configurationModule = module {
+    single { ConfigurationDataStoreFactory(get(), get()) }
+    single<ConfigurationSourceRepository> {
+        ConfigurationSourceRepositoryImpl(get())
+    }
+}
+
 var moviesModule = module {
     single { MoviesDataStoreFactory(get(), get(), get()) }
     single<MoviesSourceRepository> {
         MoviesSourceRepositoryImpl(get())
     }
-    viewModel { SplashViewModel(get()) }
 }
 
 var reviewsModule = module {
@@ -102,4 +117,8 @@ var reviewsModule = module {
     single<ReviewsSourceRepository> {
         ReviewsSourceRepositoryImpl(get())
     }
+}
+
+var viewModelsModule = module {
+    viewModel { SplashViewModel(get(), get()) }
 }

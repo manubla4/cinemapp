@@ -16,8 +16,8 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        splashViewModel.moviesPage.observe(this, Observer(this::moviesPageChanged))
-        splashViewModel.fetchData()
+        splashViewModel.data.observe(this, Observer(this::moviesPageChanged))
+        splashViewModel.loadData()
     }
 
 
