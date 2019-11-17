@@ -48,6 +48,7 @@ class HomeActivity : AppCompatActivity() {
 
     companion object {
         const val MoviesPageKey = "MoviesPageKey"
+        const val ConfigurationKey = "ConfigurationKey"
 
         private const val NotesFragmentTag = "NotesFragmentTag"
         private const val ProfileFragmentTag = "ProfileFragmentTag"

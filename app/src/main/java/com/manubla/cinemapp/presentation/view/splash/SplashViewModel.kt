@@ -29,18 +29,23 @@ class SplashViewModel(private val movieRepository: MoviesSourceRepository,
 
     fun loadData() {
         launch(Dispatchers.IO) {
-            val moviesPage = fetchMovies()
+            val moviesPage = getMoviesPage()
             if (moviesPage.fromCloud) {
                 movieRepository.storeMovies(moviesPage.results)
-                val configuration = fetchConfiguration()
-                localData.postValue(listOf(moviesPage, configuration))
+
+                val genreResponse = fetchGenres()
+                genreResponse?.let {
+                    genresRepository.storeGenres(it.genres)
+                }
+                val configurationResponse = fetchConfiguration()
+                localData.postValue(listOf(moviesPage, configurationResponse))
             }
             else
                 localData.postValue(listOf(moviesPage))
         }
     }
 
-    private suspend fun fetchMovies(): MoviesPageResponse = try {
+    private suspend fun getMoviesPage(): MoviesPageResponse = try {
             movieRepository.getMoviesPage(1)
         } catch (error: Exception) {
             MoviesPageResponse(1, listOf(), false)

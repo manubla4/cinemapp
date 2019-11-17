@@ -12,8 +12,6 @@ import com.manubla.cinemapp.data.repository.configuration.ConfigurationSourceRep
 import com.manubla.cinemapp.data.repository.configuration.ConfigurationSourceRepositoryImpl
 import com.manubla.cinemapp.data.repository.genre.GenresSourceRepository
 import com.manubla.cinemapp.data.repository.genre.GenresSourceRepositoryImpl
-import com.manubla.cinemapp.data.repository.genre.ReviewsSourceRepository
-import com.manubla.cinemapp.data.repository.genre.ReviewsSourceRepositoryImpl
 import com.manubla.cinemapp.data.repository.genres.GenresDataStoreFactory
 import com.manubla.cinemapp.data.repository.movies.MoviesDataStoreFactory
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepository
@@ -108,7 +106,7 @@ var databaseModule = module {
 }
 
 var configurationModule = module {
-    single { ConfigurationDataStoreFactory(get(), get()) }
+    single { ConfigurationDataStoreFactory(get()) }
     single<ConfigurationSourceRepository> {
         ConfigurationSourceRepositoryImpl(get())
     }

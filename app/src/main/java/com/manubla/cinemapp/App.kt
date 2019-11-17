@@ -22,7 +22,7 @@ class App : Application() {
             androidContext(this@App)
             modules(listOf(networkModule, databaseModule,
                 configurationModule, moviesModule, reviewsModule,
-                viewModelsModule))
+                genresModule, viewModelsModule))
         }
 
         // Initializing LocalDate backport
