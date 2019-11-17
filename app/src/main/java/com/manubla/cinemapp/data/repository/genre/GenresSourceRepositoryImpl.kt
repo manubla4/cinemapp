@@ -7,8 +7,8 @@ import com.manubla.cinemapp.data.service.response.GenreResponse
 class GenresSourceRepositoryImpl(var factory: GenresDataStoreFactory) :
     GenresSourceRepository {
 
-    override suspend fun fetchGenres(): GenreResponse {
-        return factory.genresDataStoreCloud.fetchGenres()
+    override suspend fun getRemoteGenres(): GenreResponse {
+        return factory.genresDataStoreCloud.getRemoteGenres()
     }
 
     override suspend fun storeGenres(genres: List<Genre>) {

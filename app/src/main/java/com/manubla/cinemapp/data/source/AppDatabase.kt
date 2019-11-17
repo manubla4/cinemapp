@@ -5,7 +5,6 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.manubla.cinemapp.data.dao.GenreDao
 import com.manubla.cinemapp.data.dao.MovieDao
-import com.manubla.cinemapp.data.dao.MovieGenreDao
 import com.manubla.cinemapp.data.dao.ReviewDao
 import com.manubla.cinemapp.data.helper.converter.Converters
 import com.manubla.cinemapp.data.model.Genre
@@ -19,5 +18,4 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun movieDao(): MovieDao
     abstract fun reviewDao(): ReviewDao
     abstract fun genreDao(): GenreDao
-    abstract fun movieGenreDao(): MovieGenreDao
 }

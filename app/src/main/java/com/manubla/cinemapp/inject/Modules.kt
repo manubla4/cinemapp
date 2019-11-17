@@ -102,7 +102,6 @@ var databaseModule = module {
     single { get<AppDatabase>().movieDao() }
     single { get<AppDatabase>().reviewDao() }
     single { get<AppDatabase>().genreDao() }
-    single { get<AppDatabase>().movieGenreDao() }
 }
 
 var configurationModule = module {
@@ -113,7 +112,7 @@ var configurationModule = module {
 }
 
 var moviesModule = module {
-    single { MoviesDataStoreFactory(get(), get(), get()) }
+    single { MoviesDataStoreFactory(get(), get(), get(), get() ) }
     single<MoviesSourceRepository> {
         MoviesSourceRepositoryImpl(get())
     }

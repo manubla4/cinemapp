@@ -5,8 +5,8 @@ import com.manubla.cinemapp.data.service.response.ConfigurationResponse
 class ConfigurationSourceRepositoryImpl(var factory: ConfigurationDataStoreFactory):
     ConfigurationSourceRepository {
 
-    override suspend fun fetchConfiguration(): ConfigurationResponse {
-        return factory.configurationDataStoreFactory.fetchConfiguration()
+    override suspend fun getRemoteConfiguration(): ConfigurationResponse {
+        return factory.configurationDataStoreFactory.getRemoteConfiguration()
     }
 
 }

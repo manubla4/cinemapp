@@ -1,10 +1,10 @@
 package com.manubla.cinemapp.presentation.view.home
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.manubla.cinemapp.R
+import com.manubla.cinemapp.data.service.response.ConfigurationResponse
 import com.manubla.cinemapp.data.service.response.MoviesPageResponse
 
 class HomeActivity : AppCompatActivity() {
@@ -13,6 +13,7 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         val moviesPage = intent.getParcelableExtra<MoviesPageResponse>(MoviesPageKey)
+        val config = intent.getParcelableExtra<ConfigurationResponse?>(ConfigurationKey)
 
 //        showFragment(NotesFragment(), NotesFragmentTag)
 //        bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->

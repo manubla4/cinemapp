@@ -1,21 +1,26 @@
 package com.manubla.cinemapp.presentation.view.splash
 
 import android.os.Parcelable
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.manubla.cinemapp.data.model.Genre
+import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.repository.configuration.ConfigurationSourceRepository
 import com.manubla.cinemapp.data.repository.genre.GenresSourceRepository
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepository
 import com.manubla.cinemapp.data.service.response.ConfigurationResponse
 import com.manubla.cinemapp.data.service.response.GenreResponse
+import com.manubla.cinemapp.data.service.response.ImagesConfigurationResponse
 import com.manubla.cinemapp.data.service.response.MoviesPageResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import kotlin.coroutines.CoroutineContext
 
-class SplashViewModel(private val movieRepository: MoviesSourceRepository,
+class SplashViewModel(private val moviesRepository: MoviesSourceRepository,
                       private val genresRepository: GenresSourceRepository,
                       private val configRepository: ConfigurationSourceRepository) : ViewModel(), CoroutineScope {
 
@@ -30,37 +35,84 @@ class SplashViewModel(private val movieRepository: MoviesSourceRepository,
     fun loadData() {
         launch(Dispatchers.IO) {
             val moviesPage = getMoviesPage()
-            if (moviesPage.fromCloud) {
-                movieRepository.storeMovies(moviesPage.results)
+            val genreResponse = getRemoteGenres()
+            val configResponse = getRemoteConfiguration()
 
-                val genreResponse = fetchGenres()
-                genreResponse?.let {
-                    genresRepository.storeGenres(it.genres)
-                }
-                val configurationResponse = fetchConfiguration()
-                localData.postValue(listOf(moviesPage, configurationResponse))
+            if (moviesPage.fromCloud)
+                storeMovies(moviesPage.results)
+
+            genreResponse?.let {
+                storeGenres(it.genres)
             }
-            else
-                localData.postValue(listOf(moviesPage))
+
+            for (movie in moviesPage.results) {
+                storeMovieGenres(movie)
+                configResponse?.let {
+                    getRemoteImage(movie, it.images)
+                }
+            }
+            localData.postValue(listOf(moviesPage, configResponse))
+        }
+    }
+
+    private suspend fun storeGenres(genres: List<Genre>) {
+        try {
+            genresRepository.storeGenres(genres)
+        } catch (error: Exception) {
+            Log.d("error","error")
+        }
+    }
+
+    private suspend fun storeMovieGenres(movie: Movie) {
+        try {
+            moviesRepository.storeMovieGenres(movie)
+        } catch (error: Exception) {
+            Log.d("error","error")
+        }
+    }
+
+    private suspend fun storeMovies(movies: List<Movie>) {
+        try {
+            moviesRepository.storeMovies(movies)
+        } catch (error: Exception) {
+            Log.d("error","error")
         }
     }
 
     private suspend fun getMoviesPage(): MoviesPageResponse = try {
-            movieRepository.getMoviesPage(1)
+            moviesRepository.getMoviesPage(1)
         } catch (error: Exception) {
             MoviesPageResponse(1, listOf(), false)
         }
 
-    private suspend fun fetchGenres(): GenreResponse? = try {
-            genresRepository.fetchGenres()
+    private suspend fun getRemoteGenres(): GenreResponse? = try {
+            genresRepository.getRemoteGenres()
         } catch (error: Exception) {
             null
         }
 
-    private suspend fun fetchConfiguration(): ConfigurationResponse? = try {
-        configRepository.fetchConfiguration()
+    private suspend fun getRemoteConfiguration(): ConfigurationResponse? = try {
+        configRepository.getRemoteConfiguration()
     } catch (error: Exception) {
         null
+    }
+
+    private suspend fun getRemoteImage(movie: Movie, 
+                                   imageConfig: ImagesConfigurationResponse) {
+        try {
+            val localMovie = moviesRepository.getLocalMovie(movie.id)
+            if (localMovie != null && movie.posterPath != null) {
+                val imageLocalPath = moviesRepository.getRemoteImage(movie.posterPath, imageConfig)
+                if (!localMovie.posterLocalPath.isNullOrEmpty()) {
+                    val file = File(localMovie.posterLocalPath)
+                    if(file.exists())
+                        file.delete()
+                }
+                movie.posterLocalPath = imageLocalPath
+                moviesRepository.updateMovieImagePath(movie.id, imageLocalPath)
+            }
+        }
+        catch (ignored: Exception) {}
     }
 
 }

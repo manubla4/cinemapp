@@ -6,7 +6,7 @@ import com.manubla.cinemapp.data.service.response.GenreResponse
 
 class GenresDataStoreImplDatabase(private val genreDao: GenreDao) : GenresDataStore {
 
-    override suspend fun fetchGenres(): GenreResponse {
+    override suspend fun getRemoteGenres(): GenreResponse {
         return GenreResponse(genreDao.getAll())
     }
 

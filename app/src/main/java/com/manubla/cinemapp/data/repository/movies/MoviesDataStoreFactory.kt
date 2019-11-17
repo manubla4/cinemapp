@@ -1,14 +1,16 @@
 package com.manubla.cinemapp.data.repository.movies
 
+import android.content.Context
 import com.manubla.cinemapp.data.dao.MovieDao
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
 import com.manubla.cinemapp.data.service.MovieService
 
 @Suppress("UNUSED_PARAMETER")
 open class MoviesDataStoreFactory(
+    var context: Context,
     var service: MovieService,
     var dao: MovieDao,
-    var networkingManager: NetworkingManager
+    private var networkingManager: NetworkingManager
 ) {
 
     val moviesDataStoreFactory: MoviesDataStore
@@ -25,7 +27,7 @@ open class MoviesDataStoreFactory(
         else
             createDataStoreDatabase()
 
-    private fun createDataStoreCloud() = MoviesDataStoreImplCloud(service)
+    private fun createDataStoreCloud() = MoviesDataStoreImplCloud(service, context)
     private fun createDataStoreDatabase() = MoviesDataStoreImplDatabase(dao)
 
 }

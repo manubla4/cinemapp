@@ -1,7 +1,6 @@
 package com.manubla.cinemapp.data.repository.reviews
 
 import com.manubla.cinemapp.data.model.Review
-import com.manubla.cinemapp.data.repository.genre.ReviewsSourceRepository
 import com.manubla.cinemapp.data.service.response.ReviewsPageResponse
 
 class ReviewsSourceRepositoryImpl(var factory: ReviewsDataStoreFactory) :

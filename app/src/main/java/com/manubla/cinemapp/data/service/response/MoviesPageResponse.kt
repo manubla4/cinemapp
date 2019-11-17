@@ -8,5 +8,5 @@ import kotlinx.android.parcel.Parcelize
 data class MoviesPageResponse (
     val page: Int,
     val results: List<Movie>,
-    val fromCloud: Boolean = true
+    var fromCloud: Boolean = true
 ): Parcelable
