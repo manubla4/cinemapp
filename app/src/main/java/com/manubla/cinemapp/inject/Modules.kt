@@ -10,6 +10,11 @@ import com.manubla.cinemapp.data.helper.networking.NetworkingManager
 import com.manubla.cinemapp.data.repository.configuration.ConfigurationDataStoreFactory
 import com.manubla.cinemapp.data.repository.configuration.ConfigurationSourceRepository
 import com.manubla.cinemapp.data.repository.configuration.ConfigurationSourceRepositoryImpl
+import com.manubla.cinemapp.data.repository.genre.GenresSourceRepository
+import com.manubla.cinemapp.data.repository.genre.GenresSourceRepositoryImpl
+import com.manubla.cinemapp.data.repository.genre.ReviewsSourceRepository
+import com.manubla.cinemapp.data.repository.genre.ReviewsSourceRepositoryImpl
+import com.manubla.cinemapp.data.repository.genres.GenresDataStoreFactory
 import com.manubla.cinemapp.data.repository.movies.MoviesDataStoreFactory
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepository
 import com.manubla.cinemapp.data.repository.movies.MoviesSourceRepositoryImpl
@@ -17,6 +22,7 @@ import com.manubla.cinemapp.data.repository.reviews.ReviewsDataStoreFactory
 import com.manubla.cinemapp.data.repository.reviews.ReviewsSourceRepository
 import com.manubla.cinemapp.data.repository.reviews.ReviewsSourceRepositoryImpl
 import com.manubla.cinemapp.data.service.ConfigurationService
+import com.manubla.cinemapp.data.service.GenreService
 import com.manubla.cinemapp.data.service.MovieService
 import com.manubla.cinemapp.data.service.ReviewService
 import com.manubla.cinemapp.data.source.AppDatabase
@@ -80,6 +86,9 @@ var networkModule = module {
     single<ConfigurationService> {
         get<Retrofit>().create(ConfigurationService::class.java)
     }
+    single<GenreService> {
+        get<Retrofit>().create(GenreService::class.java)
+    }
 }
 
 var databaseModule = module {
@@ -119,6 +128,13 @@ var reviewsModule = module {
     }
 }
 
+var genresModule = module {
+    single { GenresDataStoreFactory(get(), get(), get()) }
+    single<GenresSourceRepository> {
+        GenresSourceRepositoryImpl(get())
+    }
+}
+
 var viewModelsModule = module {
-    viewModel { SplashViewModel(get(), get()) }
+    viewModel { SplashViewModel(get(), get(), get()) }
 }

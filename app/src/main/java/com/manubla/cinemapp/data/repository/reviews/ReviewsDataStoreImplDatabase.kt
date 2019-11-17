@@ -2,6 +2,7 @@ package com.manubla.cinemapp.data.repository.reviews
 
 import com.manubla.cinemapp.data.dao.ReviewDao
 import com.manubla.cinemapp.data.model.Review
+import com.manubla.cinemapp.data.repository.genre.ReviewsDataStore
 import com.manubla.cinemapp.data.service.response.ReviewsPageResponse
 
 class ReviewsDataStoreImplDatabase(private val reviewDao: ReviewDao) : ReviewsDataStore {

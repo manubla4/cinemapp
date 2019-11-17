@@ -12,7 +12,7 @@ interface MovieDao {
     @Query("SELECT * FROM ${Movie.TABLE_NAME} LIMIT :limit, :rows")
     suspend fun getAllWithLimit(limit: Int, rows: Int): List<Movie>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(movies: List<Movie>)
 
     @Delete
