@@ -16,7 +16,7 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             notifyDataSetChanged()
         }
 
-    fun addItems(items: List<Movie>) {
+    fun addMovieItems(items: List<Movie>) {
         movies.addAll(items)
         notifyDataSetChanged()
     }
@@ -26,9 +26,9 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun removeLastItem() {
-        movies.removeAt(movies.size - 1)
-        notifyDataSetChanged()
+    fun removeProgressItem() {
+        if (movies[movies.size-1] !is Movie)
+            movies.removeAt(movies.size - 1)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -52,7 +52,7 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun getItemCount(): Int = movies.size
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is MovieViewHolder)
+        if (holder is MovieViewHolder && movies[position] is Movie)
             holder.bind(movies[position] as Movie)
     }
 

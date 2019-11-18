@@ -33,7 +33,7 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
 
             if (moviesPage.fromCloud) {
                 if (config == null)
-                    config = getRemoteConfiguration()
+                    config = getConfiguration()
 
                 storeMovies(moviesPage.results)
 
@@ -70,8 +70,8 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
     }
 
 
-    private suspend fun getRemoteConfiguration(): ConfigurationResponse? = try {
-        configRepository.getRemoteConfiguration()
+    private suspend fun getConfiguration(): ConfigurationResponse? = try {
+        configRepository.getConfiguration()
     } catch (error: Exception) {
         null
     }

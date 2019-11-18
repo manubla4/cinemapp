@@ -1,6 +1,7 @@
 package com.manubla.cinemapp.inject
 
 import android.content.Context
+import android.preference.PreferenceManager
 import androidx.room.Room
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.GsonBuilder
@@ -91,6 +92,7 @@ var networkModule = module {
 }
 
 var databaseModule = module {
+    single { PreferenceManager.getDefaultSharedPreferences(get()) }
     single {
         Room.databaseBuilder<AppDatabase>(
             get<Context>().applicationContext,
@@ -106,7 +108,7 @@ var databaseModule = module {
 }
 
 var configurationModule = module {
-    single { ConfigurationDataStoreFactory(get(), get()) }
+    single { ConfigurationDataStoreFactory(get(), get(), get()) }
     single<ConfigurationSourceRepository> {
         ConfigurationSourceRepositoryImpl(get())
     }
@@ -134,6 +136,6 @@ var genresModule = module {
 }
 
 var viewModelsModule = module {
-    viewModel { SplashViewModel(get(), get(), get()) }
+    viewModel { SplashViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get()) }
 }

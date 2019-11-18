@@ -14,15 +14,8 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
-        val moviesPage = intent.getParcelableExtra<MoviesPageResponse>(MoviesPageKey)
-        val config = intent.getParcelableExtra<ConfigurationResponse?>(ConfigurationKey)
 
-        val homeFragment = HomeFragment().apply {
-            arguments = Bundle().apply {
-                putParcelable(MoviesPageKey, moviesPage)
-                putParcelable(ConfigurationKey, config)
-            }
-        }
+        val homeFragment = HomeFragment()
         val favoritesFragment = FavoritesFragment()
 
         showFragment(HomeFragment(), HomeFragmentTag)
@@ -56,9 +49,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val MoviesPageKey = "MoviesPageKey"
-        const val ConfigurationKey = "ConfigurationKey"
-
         private const val HomeFragmentTag = "HomeFragmentTag"
         private const val FavoritesFragmentTag = "FavoritesFragmentTag"
     }
