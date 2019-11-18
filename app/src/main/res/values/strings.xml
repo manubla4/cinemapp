@@ -6,4 +6,10 @@
     <string name="profile">Profile</string>
     <string name="log_out">Log out</string>
     <string name="service_error">The credentials are not valid</string>
+    <string name="home">Home</string>
+    <string name="favorites">Favorites</string>
+    <string name="filter_by_rate">Filter by rating</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

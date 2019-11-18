@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import com.manubla.cinemapp.R
 import com.manubla.cinemapp.data.service.response.ConfigurationResponse
 import com.manubla.cinemapp.data.service.response.MoviesPageResponse
+import com.manubla.cinemapp.presentation.view.favorites.FavoritesFragment
+import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : AppCompatActivity() {
 
@@ -15,21 +17,27 @@ class HomeActivity : AppCompatActivity() {
         val moviesPage = intent.getParcelableExtra<MoviesPageResponse>(MoviesPageKey)
         val config = intent.getParcelableExtra<ConfigurationResponse?>(ConfigurationKey)
 
-//        showFragment(NotesFragment(), NotesFragmentTag)
-//        bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
-//            removeActiveFragment()
-//
-//            when (menuItem.itemId) {
-//                R.id.notes -> showFragment(NotesFragment(), NotesFragmentTag)
-//                R.id.profile -> showFragment(ProfileFragment(), ProfileFragmentTag)
-//            }
-//
-//            true
-//        }
+        val homeFragment = HomeFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(MoviesPageKey, moviesPage)
+                putParcelable(ConfigurationKey, config)
+            }
+        }
+        val favoritesFragment = FavoritesFragment()
+
+        showFragment(HomeFragment(), HomeFragmentTag)
+        bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
+            removeActiveFragment()
+            when (menuItem.itemId) {
+                R.id.home -> showFragment(homeFragment, HomeFragmentTag)
+                R.id.favorites -> showFragment(favoritesFragment, FavoritesFragmentTag)
+            }
+            true
+        }
     }
 
     private fun removeActiveFragment() {
-        listOf(NotesFragmentTag, ProfileFragmentTag).forEach { tag ->
+        listOf(HomeFragmentTag, FavoritesFragmentTag).forEach { tag ->
             val fragment = supportFragmentManager.findFragmentByTag(tag)
             fragment?.let {
                 supportFragmentManager
@@ -51,7 +59,7 @@ class HomeActivity : AppCompatActivity() {
         const val MoviesPageKey = "MoviesPageKey"
         const val ConfigurationKey = "ConfigurationKey"
 
-        private const val NotesFragmentTag = "NotesFragmentTag"
-        private const val ProfileFragmentTag = "ProfileFragmentTag"
+        private const val HomeFragmentTag = "HomeFragmentTag"
+        private const val FavoritesFragmentTag = "FavoritesFragmentTag"
     }
 }
