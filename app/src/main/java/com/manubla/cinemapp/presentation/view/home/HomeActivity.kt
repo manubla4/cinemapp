@@ -15,17 +15,19 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val homeFragment = HomeFragment()
-        val favoritesFragment = FavoritesFragment()
+        if (savedInstanceState == null) {
+            val homeFragment = HomeFragment()
+            val favoritesFragment = FavoritesFragment()
 
-        showFragment(HomeFragment(), HomeFragmentTag)
-        bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
-            removeActiveFragment()
-            when (menuItem.itemId) {
-                R.id.home -> showFragment(homeFragment, HomeFragmentTag)
-                R.id.favorites -> showFragment(favoritesFragment, FavoritesFragmentTag)
+            showFragment(HomeFragment(), HomeFragmentTag)
+            bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
+                removeActiveFragment()
+                when (menuItem.itemId) {
+                    R.id.home -> showFragment(homeFragment, HomeFragmentTag)
+                    R.id.favorites -> showFragment(favoritesFragment, FavoritesFragmentTag)
+                }
+                true
             }
-            true
         }
     }
 

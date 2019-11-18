@@ -16,15 +16,17 @@
         app:cardUseCompatPadding="true">
 
         <LinearLayout
+            android:id="@+id/cardMovie"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
             android:orientation="vertical">
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
                 android:scaleType="centerCrop"
-                android:background="@drawable/poster_shape"
                 app:bindMoviePoster="@{movie.posterLocalPath}"
                 tools:src="@drawable/test_poster"/>
 

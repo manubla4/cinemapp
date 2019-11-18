@@ -6,6 +6,7 @@
     <dimen name="input_margin">16dp</dimen>
     <dimen name="block_margin">32dp</dimen>
     <dimen name="double_block_margin">64dp</dimen>
-    <dimen name="fragment_padding">10dp</dimen>
+    <dimen name="fragment_padding">15dp</dimen>
     <dimen name="adapter_row_size">80dp</dimen>
+    <dimen name="fragment_padding_double">30dp</dimen>
 </resources>

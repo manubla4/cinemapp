@@ -25,6 +25,7 @@ import com.manubla.cinemapp.data.service.GenreService
 import com.manubla.cinemapp.data.service.MovieService
 import com.manubla.cinemapp.data.service.ReviewService
 import com.manubla.cinemapp.data.source.AppDatabase
+import com.manubla.cinemapp.presentation.view.detail.DetailViewModel
 import com.manubla.cinemapp.presentation.view.home.HomeViewModel
 import com.manubla.cinemapp.presentation.view.splash.SplashViewModel
 import com.readystatesoftware.chuck.ChuckInterceptor
@@ -138,4 +139,5 @@ var genresModule = module {
 var viewModelsModule = module {
     viewModel { SplashViewModel(get(), get()) }
     viewModel { HomeViewModel(get(), get()) }
+    viewModel { DetailViewModel(get()) }
 }

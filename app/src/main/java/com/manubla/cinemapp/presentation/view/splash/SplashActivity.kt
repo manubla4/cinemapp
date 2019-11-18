@@ -13,7 +13,7 @@ class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_splash)
 
         splashViewModel.success.observe(this, Observer(this::successChanged))
         splashViewModel.loadData()

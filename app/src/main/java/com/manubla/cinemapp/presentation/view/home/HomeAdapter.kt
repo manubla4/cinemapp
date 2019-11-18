@@ -1,6 +1,5 @@
 package com.manubla.cinemapp.presentation.view.home
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,7 +8,7 @@ import com.manubla.cinemapp.R
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.databinding.ItemMovieBinding
 
-class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HomeAdapter(private val listener: OnAdapterInteraction) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var movies = arrayListOf<Any>()
         set(value) {
@@ -59,9 +58,10 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class MovieViewHolder(val binding: ItemMovieBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Movie?) {
-            if (item == null)
-                Log.d("wtf","wtf")
             binding.movie = item
+            binding.cardMovie.setOnClickListener {
+                listener.onSelectMovie(item)
+            }
             binding.executePendingBindings()
         }
     }
@@ -71,5 +71,9 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     companion object {
         private const val PROGRESS_TYPE = 1
         private const val MOVIE_TYPE = 2
+    }
+
+    interface OnAdapterInteraction {
+        fun onSelectMovie(movie: Movie?)
     }
 }

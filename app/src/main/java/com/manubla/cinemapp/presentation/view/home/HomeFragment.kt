@@ -1,5 +1,6 @@
 package com.manubla.cinemapp.presentation.view.home
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -10,15 +11,18 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.manubla.cinemapp.R
+import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.service.response.MoviesPageResponse
 import com.manubla.cinemapp.presentation.helper.gone
 import com.manubla.cinemapp.presentation.helper.visible
 import com.manubla.cinemapp.presentation.util.showLongErrorMessage
+import com.manubla.cinemapp.presentation.view.detail.DetailActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class HomeFragment : Fragment() {
-    private val adapter = HomeAdapter()
+class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
+
+    private lateinit var adapter: HomeAdapter
     private val homeViewModel: HomeViewModel by viewModel()
 
     private var currentRating = 0
@@ -37,6 +41,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         mainLayout.requestFocus()
+        adapter = HomeAdapter(this)
         homeViewModel.data.observe(this, Observer(this::dataChanged))
         val layoutManager = GridLayoutManager(activity, 2)
         recyclerView.let {
@@ -108,5 +113,11 @@ class HomeFragment : Fragment() {
 
         currentPage++
         loading = false
+    }
+
+    override fun onSelectMovie(movie: Movie?) {
+        val intent = Intent(activity, DetailActivity::class.java)
+        intent.putExtra(DetailActivity.MovieKey, movie)
+        startActivity(intent)
     }
 }

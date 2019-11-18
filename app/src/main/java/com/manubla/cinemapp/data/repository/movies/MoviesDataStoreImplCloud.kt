@@ -37,7 +37,7 @@ class MoviesDataStoreImplCloud(private var movieService: MovieService,
         } catch (e: Exception) {
             defaultPosterSize
         }
-        val url = imageConfig.secureBaseUrl + avgPosterSize + posterPath
+        val url = imageConfig.secureBaseUrl.plus(avgPosterSize).plus(posterPath)
         val file: File = Glide.with(context).asFile().load(url).submit().get()
         return file.absolutePath
     }
