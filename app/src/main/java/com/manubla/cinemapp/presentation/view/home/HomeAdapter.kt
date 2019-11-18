@@ -1,5 +1,6 @@
 package com.manubla.cinemapp.presentation.view.home
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,8 @@ class HomeAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     inner class MovieViewHolder(val binding: ItemMovieBinding): RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Movie?) {
+            if (item == null)
+                Log.d("wtf","wtf")
             binding.movie = item
             binding.executePendingBindings()
         }

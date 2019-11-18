@@ -9,7 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.manubla.cinemapp.data.model.Movie
+import com.manubla.cinemapp.R
+import com.manubla.cinemapp.data.service.response.MoviesPageResponse
+import com.manubla.cinemapp.presentation.helper.gone
+import com.manubla.cinemapp.presentation.helper.visible
+import com.manubla.cinemapp.presentation.util.showLongErrorMessage
 import kotlinx.android.synthetic.main.fragment_home.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -19,18 +23,20 @@ class HomeFragment : Fragment() {
 
     private var currentRating = 0
     private var currentPage = 1
-    private var loading = false
+    private var loading = true
+    private var online = true
 
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View = inflater.inflate(com.manubla.cinemapp.R.layout.fragment_home, container, false)
+    ): View = inflater.inflate(R.layout.fragment_home, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mainLayout.requestFocus()
         homeViewModel.data.observe(this, Observer(this::dataChanged))
         val layoutManager = GridLayoutManager(activity, 2)
         recyclerView.let {
@@ -57,15 +63,14 @@ class HomeFragment : Fragment() {
         ratingBar.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_UP) {
                 if (currentRating == ratingBar.rating.toInt()) {
-                    ratingBar.rating = 1f
+                    ratingBar.rating = 0f
                     currentRating = 0
                 } else
                     currentRating = ratingBar.rating.toInt()
             }
-            false
+            true
         }
 
-        loading = true
         swipeLayout.isRefreshing = true
         homeViewModel.loadData(currentPage)
 
@@ -78,13 +83,29 @@ class HomeFragment : Fragment() {
     }
 
 
-    private fun dataChanged(data: List<Movie>) {
-        swipeLayout.isRefreshing = false
+    private fun dataChanged(page: MoviesPageResponse) {
         if (currentPage > 1)
             adapter.removeProgressItem()
-        adapter.addMovieItems(data)
+
+        if (page.fromCloud) {
+            if (!online) {
+                online = true
+                editSearch.visible()
+                adapter.movies = arrayListOf()
+            }
+        } else {
+            if (online || swipeLayout.isRefreshing) {
+                online = false
+                editSearch.gone()
+                showLongErrorMessage(getString(R.string.no_network_connection), view, context)
+                adapter.movies = arrayListOf()
+            }
+        }
+        swipeLayout.isRefreshing = false
+        adapter.addMovieItems(page.results)
         if (currentPage == 1)
             recyclerView.scheduleLayoutAnimation()
+
         currentPage++
         loading = false
     }

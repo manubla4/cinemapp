@@ -21,10 +21,10 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
     override val coroutineContext: CoroutineContext
         get() = Dispatchers.Main
 
-    val data: LiveData<List<Movie>>
+    val data: LiveData<MoviesPageResponse>
         get() = localData
 
-    private val localData = MutableLiveData<List<Movie>>()
+    private val localData = MutableLiveData<MoviesPageResponse>()
     private var config: ConfigurationResponse? = null
 
     fun loadData(page: Int) {
@@ -44,7 +44,7 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
                     }
                 }
             }
-            localData.postValue(moviesPage.results)
+            localData.postValue(moviesPage)
         }
     }
 
