@@ -1,7 +1,6 @@
 package com.manubla.cinemapp.presentation.view.splash
 
 import android.os.Parcelable
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -58,42 +57,39 @@ class SplashViewModel(private val moviesRepository: MoviesSourceRepository,
     private suspend fun storeGenres(genres: List<Genre>) {
         try {
             genresRepository.storeGenres(genres)
-        } catch (error: Exception) {
-            Log.d("error","error")
+        } catch (ignored: Exception) {
         }
     }
 
     private suspend fun storeMovieGenres(movie: Movie) {
         try {
             moviesRepository.storeMovieGenres(movie)
-        } catch (error: Exception) {
-            Log.d("error","error")
+        } catch (ignored: Exception) {
         }
     }
 
     private suspend fun storeMovies(movies: List<Movie>) {
         try {
             moviesRepository.storeMovies(movies)
-        } catch (error: Exception) {
-            Log.d("error","error")
+        } catch (ignored: Exception) {
         }
     }
 
     private suspend fun getMoviesPage(): MoviesPageResponse = try {
             moviesRepository.getMoviesPage(1)
-        } catch (error: Exception) {
+        } catch (ignored: Exception) {
             MoviesPageResponse(1, listOf(), false)
         }
 
     private suspend fun getRemoteGenres(): GenreResponse? = try {
             genresRepository.getRemoteGenres()
-        } catch (error: Exception) {
+        } catch (ignored: Exception) {
             null
         }
 
     private suspend fun getRemoteConfiguration(): ConfigurationResponse? = try {
         configRepository.getRemoteConfiguration()
-    } catch (error: Exception) {
+    } catch (ignored: Exception) {
         null
     }
 

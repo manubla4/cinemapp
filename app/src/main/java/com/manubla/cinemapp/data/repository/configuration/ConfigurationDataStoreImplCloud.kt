@@ -9,5 +9,4 @@ class ConfigurationDataStoreImplCloud(private var configurationService: Configur
         return configurationService.getConfiguration()
     }
 
-
 }

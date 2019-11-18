@@ -1,5 +1,6 @@
 package com.manubla.cinemapp.data.repository.reviews
 
+import android.accounts.NetworkErrorException
 import com.manubla.cinemapp.data.dao.ReviewDao
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
 import com.manubla.cinemapp.data.service.ReviewService
@@ -25,7 +26,12 @@ open class ReviewsDataStoreFactory(
         else
             createDataStoreDatabase()
 
-    private fun createDataStoreCloud() = ReviewsDataStoreImplCloud(service)
+    private fun createDataStoreCloud() =
+        if (networkingManager.isNetworkOnline())
+            ReviewsDataStoreImplCloud(service)
+        else
+            throw NetworkErrorException()
+
     private fun createDataStoreDatabase() = ReviewsDataStoreImplDatabase(dao)
 
 }

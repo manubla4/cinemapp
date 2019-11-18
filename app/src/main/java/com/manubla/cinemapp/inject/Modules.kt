@@ -106,7 +106,7 @@ var databaseModule = module {
 }
 
 var configurationModule = module {
-    single { ConfigurationDataStoreFactory(get()) }
+    single { ConfigurationDataStoreFactory(get(), get()) }
     single<ConfigurationSourceRepository> {
         ConfigurationSourceRepositoryImpl(get())
     }

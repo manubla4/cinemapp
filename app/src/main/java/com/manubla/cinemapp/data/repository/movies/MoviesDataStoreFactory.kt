@@ -1,5 +1,6 @@
 package com.manubla.cinemapp.data.repository.movies
 
+import android.accounts.NetworkErrorException
 import android.content.Context
 import com.manubla.cinemapp.data.dao.MovieDao
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
@@ -27,7 +28,12 @@ open class MoviesDataStoreFactory(
         else
             createDataStoreDatabase()
 
-    private fun createDataStoreCloud() = MoviesDataStoreImplCloud(service, context)
+    private fun createDataStoreCloud() =
+        if (networkingManager.isNetworkOnline())
+            MoviesDataStoreImplCloud(service, context)
+        else
+            throw NetworkErrorException()
+
     private fun createDataStoreDatabase() = MoviesDataStoreImplDatabase(dao)
 
 }

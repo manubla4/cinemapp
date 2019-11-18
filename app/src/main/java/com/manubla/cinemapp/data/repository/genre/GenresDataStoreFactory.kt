@@ -1,5 +1,6 @@
 package com.manubla.cinemapp.data.repository.genres
 
+import android.accounts.NetworkErrorException
 import com.manubla.cinemapp.data.dao.GenreDao
 import com.manubla.cinemapp.data.helper.networking.NetworkingManager
 import com.manubla.cinemapp.data.repository.genre.GenresDataStore
@@ -28,7 +29,12 @@ open class GenresDataStoreFactory(
         else
             createDataStoreDatabase()
 
-    private fun createDataStoreCloud() = GenresDataStoreImplCloud(service)
+    private fun createDataStoreCloud() =
+        if (networkingManager.isNetworkOnline())
+            GenresDataStoreImplCloud(service)
+        else
+            throw NetworkErrorException()
+
     private fun createDataStoreDatabase() = GenresDataStoreImplDatabase(dao)
 
 }
