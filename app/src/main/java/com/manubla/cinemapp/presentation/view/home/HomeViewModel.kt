@@ -81,12 +81,12 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
         try {
             val localMovie = moviesRepository.getLocalMovie(movie.id)
             if (localMovie != null && movie.posterPath != null) {
-                val imageLocalPath = moviesRepository.getRemoteImage(movie.posterPath, imageConfig)
                 if (!localMovie.posterLocalPath.isNullOrEmpty()) {
                     val file = File(localMovie.posterLocalPath)
                     if(file.exists())
                         file.delete()
                 }
+                val imageLocalPath = moviesRepository.getRemoteImage(movie.posterPath, imageConfig)
                 movie.posterLocalPath = imageLocalPath
                 moviesRepository.updateMovieImagePath(movie.id, imageLocalPath)
             }
