@@ -9,4 +9,5 @@
     <dimen name="fragment_padding">15dp</dimen>
     <dimen name="adapter_row_size">80dp</dimen>
     <dimen name="fragment_padding_double">30dp</dimen>
+    <dimen name="fading_edge">50dp</dimen>
 </resources>

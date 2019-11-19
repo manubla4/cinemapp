@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/input_margin"
-            android:fadingEdgeLength="30dp"
+            android:fadingEdgeLength="@dimen/fading_edge"
             android:requiresFadingEdge="vertical"
             android:scrollbars="none"
             android:fillViewport="true">

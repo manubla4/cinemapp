@@ -9,6 +9,10 @@ import org.threeten.bp.ZonedDateTime
 
 class MoviesSourceRepositoryImpl(var factory: MoviesDataStoreFactory) : MoviesSourceRepository {
 
+    override suspend fun getFavoriteMovies(): List<Movie> {
+        return factory.moviesDataStoreDatabase.getFavoriteMovies()
+    }
+
     override suspend fun getLocalMovie(movieId: Int): Movie? {
         return factory.moviesDataStoreDatabase.getMovie(movieId)
     }

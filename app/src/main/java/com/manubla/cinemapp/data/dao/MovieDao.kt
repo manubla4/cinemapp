@@ -15,6 +15,9 @@ interface MovieDao {
     @Query("SELECT * FROM ${Movie.TABLE_NAME} LIMIT :limit, :rows")
     suspend fun getAllWithLimit(limit: Int, rows: Int): List<Movie>
 
+    @Query("SELECT * FROM ${Movie.TABLE_NAME} WHERE favorite_date IS NOT NULL")
+    suspend fun getFavoriteMovies(): List<Movie>
+
     @Query("SELECT * FROM ${Movie.TABLE_NAME} WHERE id=:movieId")
     suspend fun get(movieId: Int): Movie?
 

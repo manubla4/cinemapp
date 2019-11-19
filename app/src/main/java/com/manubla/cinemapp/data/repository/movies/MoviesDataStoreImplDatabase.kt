@@ -44,4 +44,8 @@ class MoviesDataStoreImplDatabase(private val movieDao: MovieDao) : MoviesDataSt
     suspend fun getFavoriteDate(movieId: Int): ZonedDateTime? {
         return movieDao.get(movieId)?.favoriteDate
     }
+
+    suspend fun getFavoriteMovies(): List<Movie> {
+        return movieDao.getFavoriteMovies()
+    }
 }

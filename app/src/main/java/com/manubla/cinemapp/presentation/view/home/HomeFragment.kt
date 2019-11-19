@@ -106,6 +106,7 @@ class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
                 adapter.movies = arrayListOf()
             }
         }
+
         swipeLayout.isRefreshing = false
         adapter.addMovieItems(page.results)
         if (currentPage == 1)
