@@ -1,5 +1,6 @@
 package com.manubla.cinemapp.presentation.view.detail
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.lifecycle.Observer
 import com.manubla.cinemapp.R
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.databinding.FragmentDetailBinding
+import com.manubla.cinemapp.presentation.view.review.ReviewActivity
 import kotlinx.android.synthetic.main.fragment_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.threeten.bp.ZonedDateTime
@@ -39,7 +41,9 @@ class DetailFragment : Fragment() {
         val movie = arguments?.getParcelable<Movie?>(DetailActivity.MovieKey)
         if (movie != null) {
             btnReviews.setOnClickListener {
-                //TODO reviews
+                val intent = Intent(activity, ReviewActivity::class.java)
+                intent.putExtra(ReviewActivity.MovieKey, movie)
+                startActivity(intent)
             }
             btnFavorite.setOnClickListener {
                 if (favoriteDate != null) {

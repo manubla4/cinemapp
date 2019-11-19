@@ -28,7 +28,7 @@ class HomeAdapter(private val listener: OnAdapterInteraction):
     }
 
     fun removeProgressItem() {
-        if (movies[movies.size-1] !is Movie)
+        if (movies.isNotEmpty() && movies[movies.size-1] !is Movie)
             movies.removeAt(movies.size - 1)
     }
 

@@ -7,7 +7,7 @@ import retrofit2.http.Query
 
 interface ReviewService {
 
-    @GET("{movieId}/reviews")
+    @GET("movie/{movieId}/reviews")
     suspend fun getReviewsPage(
         @Path("movieId") movieId: Int,
         @Query("page") page: Int): ReviewsPageResponse

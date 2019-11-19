@@ -28,6 +28,7 @@ import com.manubla.cinemapp.data.source.AppDatabase
 import com.manubla.cinemapp.presentation.view.detail.DetailViewModel
 import com.manubla.cinemapp.presentation.view.favorites.FavoritesViewModel
 import com.manubla.cinemapp.presentation.view.home.HomeViewModel
+import com.manubla.cinemapp.presentation.view.review.ReviewViewModel
 import com.manubla.cinemapp.presentation.view.splash.SplashViewModel
 import com.readystatesoftware.chuck.ChuckInterceptor
 import okhttp3.OkHttpClient
@@ -142,4 +143,5 @@ var viewModelsModule = module {
     viewModel { HomeViewModel(get(), get()) }
     viewModel { FavoritesViewModel(get()) }
     viewModel { DetailViewModel(get()) }
+    viewModel { ReviewViewModel(get()) }
 }

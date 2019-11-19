@@ -8,5 +8,5 @@ import kotlinx.android.parcel.Parcelize
 data class ReviewsPageResponse (
     val page: Int,
     val results: List<Review>,
-    val fromCloud: Boolean = true
+    var fromCloud: Boolean = true
 ): Parcelable
