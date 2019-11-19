@@ -16,15 +16,13 @@ class MoviesDataStoreImplCloud(private var movieService: MovieService,
     private val defaultLanguage = "en-US"
 
     override suspend fun getMoviesPage(page: Int): MoviesPageResponse {
-        val page = movieService.getMoviesPage(
+        return movieService.getMoviesPage(
             defaultLanguage,
             defaultPopularitySort,
             includeAdult = false,
             includeVideo = false,
             page = page
-        )
-        page.fromCloud = true
-        return page
+        ).apply { fromCloud = true }
     }
 
     override suspend fun getMovie(movieId: Int): Movie? {
@@ -40,6 +38,15 @@ class MoviesDataStoreImplCloud(private var movieService: MovieService,
         val url = imageConfig.secureBaseUrl.plus(avgPosterSize).plus(posterPath)
         val file: File = Glide.with(context).asFile().load(url).submit().get()
         return file.absolutePath
+    }
+
+    suspend fun searchMoviesPage(query: String, page: Int): MoviesPageResponse {
+        return movieService.searchMoviesPage(
+            defaultLanguage,
+            query,
+            page = page,
+            includeAdult = false
+        ).apply { fromCloud = true }
     }
 
 }

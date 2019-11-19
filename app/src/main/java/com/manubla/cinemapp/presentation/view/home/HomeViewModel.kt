@@ -26,6 +26,7 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
 
     private val localData = MutableLiveData<MoviesPageResponse>()
     private var config: ConfigurationResponse? = null
+    private val defaultPosterSize = "w185"
 
     fun loadData(page: Int) {
         launch(Dispatchers.IO) {
@@ -48,6 +49,23 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
         }
     }
 
+    fun searchMovies(query: String, page: Int) {
+        launch(Dispatchers.IO) {
+            val moviesPage = searchMoviesPage(query, page)
+            for (movie in moviesPage.results) {
+                config?.let {
+                    val avgPosterSize: String = try {
+                        it.images.posterSizes[it.images.posterSizes.size / 2]
+                    } catch (e: Exception) {
+                        defaultPosterSize
+                    }
+                    val url = it.images.secureBaseUrl.plus(avgPosterSize).plus(movie.posterPath)
+                    movie.posterLocalPath = url
+                }
+            }
+            localData.postValue(moviesPage)
+        }
+    }
 
     private suspend fun storeMovieGenres(movie: Movie) {
         try {
@@ -69,6 +87,11 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
         MoviesPageResponse(page, listOf(), false)
     }
 
+    private suspend fun searchMoviesPage(query: String, page: Int): MoviesPageResponse = try {
+        moviesRepository.searchMoviesPage(query, page)
+    } catch (error: Exception) {
+        MoviesPageResponse(page, listOf(), true)
+    }
 
     private suspend fun getConfiguration(): ConfigurationResponse? = try {
         configRepository.getConfiguration()

@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manubla.cinemapp.R
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.service.response.MoviesPageResponse
+import com.manubla.cinemapp.presentation.helper.editTextString
 import com.manubla.cinemapp.presentation.helper.gone
 import com.manubla.cinemapp.presentation.helper.visible
 import com.manubla.cinemapp.presentation.util.showLongErrorMessage
@@ -23,7 +25,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
 
     private lateinit var adapter: HomeAdapter
-    private val homeViewModel: HomeViewModel by viewModel()
+    private val viewModel: HomeViewModel by viewModel()
 
     private var currentRating = 0
     private var currentPage = 1
@@ -42,7 +44,7 @@ class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
 
         mainLayout.requestFocus()
         adapter = HomeAdapter(this)
-        homeViewModel.data.observe(this, Observer(this::dataChanged))
+        viewModel.data.observe(this, Observer(this::dataChanged))
         val layoutManager = GridLayoutManager(activity, 2)
         recyclerView.let {
             it.layoutManager = layoutManager
@@ -57,7 +59,7 @@ class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
                             if (visibleItemCount + pastVisiblesItems >= totalItemCount) {
                                 loading = true
                                 adapter.addItem(Any())  //Progress item
-                                homeViewModel.loadData(currentPage)
+                                viewModel.loadData(currentPage)
                             }
                         }
                     }
@@ -77,13 +79,22 @@ class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
         }
 
         swipeLayout.isRefreshing = true
-        homeViewModel.loadData(currentPage)
+        viewModel.loadData(currentPage)
 
 
         swipeLayout.setOnRefreshListener {
             adapter.movies = arrayListOf()
             currentPage = 1
-            homeViewModel.loadData(currentPage)
+            viewModel.loadData(currentPage)
+        }
+
+        editSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                adapter.movies = arrayListOf()
+                currentPage = 1
+                viewModel.searchMovies(editSearch.editTextString(), currentPage)
+            }
+            false
         }
     }
 

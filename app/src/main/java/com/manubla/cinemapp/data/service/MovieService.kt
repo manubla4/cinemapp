@@ -12,4 +12,10 @@ interface MovieService {
                               @Query("include_adult") includeAdult: Boolean,
                               @Query("include_video") includeVideo: Boolean,
                               @Query("page") page: Int): MoviesPageResponse
+
+    @GET("search/movie")
+    suspend fun searchMoviesPage(@Query("language") language: String,
+                              @Query("query") query: String,
+                              @Query("page") page: Int,
+                              @Query("include_adult") includeAdult: Boolean): MoviesPageResponse
 }
