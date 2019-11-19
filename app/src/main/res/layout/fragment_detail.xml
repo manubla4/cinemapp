@@ -7,8 +7,8 @@
             name="movie"
             type="com.manubla.cinemapp.data.model.Movie" />
         <variable
-            name="genres"
-            type="java.util.List" />
+            name="viewModel"
+            type="com.manubla.cinemapp.presentation.view.detail.DetailViewModel" />
     </data>
 
     <LinearLayout
@@ -23,6 +23,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/input_margin"
+            android:fadingEdgeLength="30dp"
+            android:requiresFadingEdge="vertical"
+            android:scrollbars="none"
             android:fillViewport="true">
 
             <LinearLayout
@@ -43,6 +46,7 @@
                     style="@style/TextAppearance.AppCompat.Headline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/small_margin"
                     android:gravity="center"
                     android:textStyle="bold"
                     android:textColor="@color/colorTextSecondary"
@@ -74,7 +78,7 @@
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_star_yellow_50p"/>
+                            android:src="@drawable/ic_star_yellow_40dp"/>
 
                         <TextView
                             android:id="@+id/txtRate"
@@ -98,32 +102,24 @@
                         android:gravity="end">
 
                         <ImageView
-                            android:id="@+id/imgViewFavorite"
+                            android:id="@+id/btnFavorite"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:bindMovieFavorite="@{movie.favoriteDate}"
-                            android:src="@drawable/ic_favorite_border_50dp"/>
+                            android:clickable="true"
+                            android:focusable="true"
+                            app:bindMovieFavorite="@{viewModel.favoriteDate}"
+                            android:src="@drawable/ic_favorite_border_40dp"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/txtDescription"
-                    style="@style/TextAppearance.AppCompat.Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/small_margin"
-                    android:textColor="@color/colorTextTertiary"
-                    android:justificationMode="inter_word"
-                    android:text="@{movie.overview}"
-                    tools:text="@string/lorem_impsum"/>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/block_margin"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/input_margin"
                     android:orientation="horizontal">
 
                     <TextView
@@ -132,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="@color/colorTextSecondary"
                         android:textStyle="bold"
-                        tools:text="@string/genres"/>
+                        android:text="@string/genres"/>
 
                     <TextView
                         style="@style/TextAppearance.AppCompat.Small"
@@ -140,9 +136,29 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/input_margin"
                         android:textColor="@color/colorTextSecondary"
+                        android:layout_gravity="center"
+                        app:bindMovieGenres="@{viewModel.genres}"
                         tools:text="Fantasy, Animation, Drama"/>
 
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/txtDescription"
+                    style="@style/TextAppearance.AppCompat.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextTertiary"
+                    android:justificationMode="inter_word"
+                    android:text="@{movie.overview}"
+                    tools:text="@string/lorem_impsum"/>
+
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnReviews"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/input_margin"
+                    android:text="@string/review"/>
 
             </LinearLayout>
 

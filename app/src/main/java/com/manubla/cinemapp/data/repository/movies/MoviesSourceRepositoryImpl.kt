@@ -1,10 +1,11 @@
 package com.manubla.cinemapp.data.repository.movies
 
-import com.bumptech.glide.Glide
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.model.MovieGenre
+import com.manubla.cinemapp.data.service.response.GenreResponse
 import com.manubla.cinemapp.data.service.response.ImagesConfigurationResponse
 import com.manubla.cinemapp.data.service.response.MoviesPageResponse
+import org.threeten.bp.ZonedDateTime
 
 class MoviesSourceRepositoryImpl(var factory: MoviesDataStoreFactory) : MoviesSourceRepository {
 
@@ -39,6 +40,18 @@ class MoviesSourceRepositoryImpl(var factory: MoviesDataStoreFactory) : MoviesSo
 
     override suspend fun updateMovieImagePath(movieId: Int, path: String) {
         factory.moviesDataStoreDatabase.updateMovieImagePath(movieId, path)
+    }
+
+    override suspend fun updateMovieFavorite(movieId: Int, favoriteDate: ZonedDateTime?) {
+        factory.moviesDataStoreDatabase.updateMovieFavoriteDate(movieId, favoriteDate)
+    }
+
+    override suspend fun getLocalGenresForMovie(movieId: Int): GenreResponse {
+        return factory.moviesDataStoreDatabase.getGenresForMovie(movieId)
+    }
+
+    override suspend fun getLocalFavoriteDate(movieId: Int): ZonedDateTime? {
+        return factory.moviesDataStoreDatabase.getFavoriteDate(movieId)
     }
 
 }

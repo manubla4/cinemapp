@@ -4,7 +4,9 @@ import com.manubla.cinemapp.data.dao.MovieDao
 import com.manubla.cinemapp.data.model.Genre
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.model.MovieGenre
+import com.manubla.cinemapp.data.service.response.GenreResponse
 import com.manubla.cinemapp.data.service.response.MoviesPageResponse
+import org.threeten.bp.ZonedDateTime
 
 class MoviesDataStoreImplDatabase(private val movieDao: MovieDao) : MoviesDataStore {
     private val pageRows = 20
@@ -19,8 +21,8 @@ class MoviesDataStoreImplDatabase(private val movieDao: MovieDao) : MoviesDataSt
         return movieDao.get(movieId)
     }
 
-    suspend fun getMovieGenres(movie: Movie): List<Genre> {
-        return movieDao.getGenresForMovie(movie.id)
+    suspend fun getGenresForMovie(movieId: Int): GenreResponse {
+        return GenreResponse(movieDao.getGenresForMovie(movieId))
     }
 
     suspend fun storeMovies(movies: List<Movie>) {
@@ -35,4 +37,11 @@ class MoviesDataStoreImplDatabase(private val movieDao: MovieDao) : MoviesDataSt
         movieDao.updateMovieImagePath(movieId, path)
     }
 
+    suspend fun updateMovieFavoriteDate(movieId: Int, favoriteDate: ZonedDateTime?) {
+        movieDao.updateMovieFavoriteDate(movieId, favoriteDate)
+    }
+
+    suspend fun getFavoriteDate(movieId: Int): ZonedDateTime? {
+        return movieDao.get(movieId)?.favoriteDate
+    }
 }

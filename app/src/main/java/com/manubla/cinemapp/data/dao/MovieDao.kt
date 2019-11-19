@@ -4,6 +4,7 @@ import androidx.room.*
 import com.manubla.cinemapp.data.model.Genre
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.model.MovieGenre
+import org.threeten.bp.ZonedDateTime
 
 @Dao
 interface MovieDao {
@@ -25,6 +26,9 @@ interface MovieDao {
 
     @Query("UPDATE ${Movie.TABLE_NAME} SET poster_local_path=:path WHERE id =:movieId")
     suspend fun updateMovieImagePath(movieId: Int, path: String)
+
+    @Query("UPDATE ${Movie.TABLE_NAME} SET favorite_date=:favoriteDate WHERE id =:movieId")
+    suspend fun updateMovieFavoriteDate(movieId: Int, favoriteDate: ZonedDateTime?)
 
     @Query("SELECT * FROM ${Genre.TABLE_NAME} INNER JOIN ${MovieGenre.TABLE_NAME} ON " +
             "${Genre.TABLE_NAME}.id=${MovieGenre.TABLE_NAME}.genre_id WHERE ${MovieGenre.TABLE_NAME}.movie_id=:movieId")

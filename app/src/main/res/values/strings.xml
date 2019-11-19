@@ -16,4 +16,5 @@
     <string name="no_network_connection">You are not connected to the internet</string>
     <string name="lorem_impsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec facilisis mauris, a volutpat lorem. Aliquam ut pulvinar felis, eget feugiat nulla. Nam accumsan porttitor quam, ac semper lorem ultrices eu. </string>
     <string name="genres">Genres:</string>
+    <string name="review">Reviews</string>
 </resources>
