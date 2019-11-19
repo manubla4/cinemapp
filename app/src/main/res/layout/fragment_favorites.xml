@@ -17,6 +17,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layoutAnimation="@anim/layout_animation"
+            android:requiresFadingEdge="vertical"
             android:fadingEdgeLength="@dimen/fading_edge"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
