@@ -31,13 +31,16 @@ class DetailViewModel(private val moviesRepository: MoviesSourceRepository) : Vi
         }
     }
 
-    fun storeFavorite(movieId: Int, state: Boolean) {
+    fun updateFavorite(movieId: Int, currentDate: ZonedDateTime?) {
         launch(Dispatchers.IO) {
             val date: ZonedDateTime? =
-                if (state) ZonedDateTime.now()
+                if (currentDate == null) ZonedDateTime.now()
                 else null
-            storeFavorite(movieId, date)
             localFavoriteDate.postValue(date)
+            if (storeFavorite(movieId, date))
+                localFavoriteDate.postValue(date)
+            else
+                localFavoriteDate.postValue(currentDate)
         }
     }
 
@@ -62,10 +65,13 @@ class DetailViewModel(private val moviesRepository: MoviesSourceRepository) : Vi
         }
 
 
-    private suspend fun storeFavorite(movieId: Int, date: ZonedDateTime?) {
+    private suspend fun storeFavorite(movieId: Int, date: ZonedDateTime?): Boolean =
         try {
             moviesRepository.updateMovieFavorite(movieId, date)
-        } catch (ignored: Exception) {
+            true
+        } catch (error: Exception) {
+            false
         }
-    }
+
+
 }

@@ -25,6 +25,14 @@ class MoviesSourceRepositoryImpl(var factory: MoviesDataStoreFactory) : MoviesSo
         return factory.moviesDataStoreFactory.getMoviesPage(page)
     }
 
+    override suspend fun getMoviesPage(
+        page: Int,
+        ratingMin: Double,
+        ratingMax: Double
+    ): MoviesPageResponse {
+        return factory.moviesDataStoreFactory.getMoviesPage(page, ratingMin, ratingMax)
+    }
+
     override suspend fun storeMovies(movies: List<Movie>) {
         factory.moviesDataStoreDatabase.storeMovies(movies)
     }

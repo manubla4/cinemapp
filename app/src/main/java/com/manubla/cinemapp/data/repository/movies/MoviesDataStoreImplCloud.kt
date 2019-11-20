@@ -11,6 +11,7 @@ import java.io.File
 class MoviesDataStoreImplCloud(private var movieService: MovieService,
                                private val context: Context) : MoviesDataStore {
 
+
     private val defaultPopularitySort = "popularity.desc"
     private val defaultPosterSize = "w185"
     private val defaultLanguage = "en-US"
@@ -24,6 +25,21 @@ class MoviesDataStoreImplCloud(private var movieService: MovieService,
             page = page
         ).apply { fromCloud = true }
     }
+
+    override suspend fun getMoviesPage(page: Int, ratingMin: Double,
+                                       ratingMax: Double): MoviesPageResponse {
+
+        return movieService.getMoviesPage(
+            defaultLanguage,
+            defaultPopularitySort,
+            includeAdult = false,
+            includeVideo = false,
+            page = page,
+            ratingMin = ratingMin,
+            ratingMax = ratingMax
+        ).apply { fromCloud = true }
+    }
+
 
     override suspend fun getMovie(movieId: Int): Movie? {
         TODO("not implemented")

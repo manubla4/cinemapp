@@ -8,6 +8,7 @@ import org.threeten.bp.ZonedDateTime
 
 interface MoviesSourceRepository {
     suspend fun getMoviesPage(page: Int): MoviesPageResponse
+    suspend fun getMoviesPage(page: Int, ratingMin: Double, ratingMax: Double): MoviesPageResponse
     suspend fun searchMoviesPage(query: String, page: Int): MoviesPageResponse
     suspend fun getFavoriteMovies(): List<Movie>
     suspend fun getRemoteImage(posterPath: String?, imageConfig: ImagesConfigurationResponse): String

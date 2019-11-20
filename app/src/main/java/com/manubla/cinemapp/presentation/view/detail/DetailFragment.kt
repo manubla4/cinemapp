@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -46,20 +45,7 @@ class DetailFragment : Fragment() {
                 startActivity(intent)
             }
             btnFavorite.setOnClickListener {
-                if (favoriteDate != null) {
-                    viewModel.storeFavorite(movie.id, false)
-                    context?.let {
-                        btnFavorite.setImageDrawable(ContextCompat.
-                        getDrawable(it, R.drawable.ic_favorite_border_40dp))
-                    }
-                }
-                else {
-                    viewModel.storeFavorite(movie.id, true)
-                    context?.let {
-                        btnFavorite.setImageDrawable(ContextCompat.
-                            getDrawable(it, R.drawable.ic_favorite_filled_40dp))
-                    }
-                }
+                viewModel.updateFavorite(movie.id, favoriteDate)
             }
 
             binding.lifecycleOwner = viewLifecycleOwner

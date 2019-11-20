@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -27,7 +28,7 @@ class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
     private lateinit var adapter: HomeAdapter
     private val viewModel: HomeViewModel by viewModel()
 
-    private var currentRating = 0
+    private var currentRating = 0f
     private var currentPage = 1
     private var loading = true
     private var online = true
@@ -67,15 +68,22 @@ class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
             })
         }
 
-        ratingBar.setOnTouchListener { _, event ->
+
+        ratingBar.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_DOWN)
+                ratingBar.setIsIndicator(false)
             if (event.action == MotionEvent.ACTION_UP) {
-                if (currentRating == ratingBar.rating.toInt()) {
-                    ratingBar.rating = 0f
-                    currentRating = 0
-                } else
-                    currentRating = ratingBar.rating.toInt()
+                if (ratingBar.rating == currentRating) {
+                    currentRating = 0f
+                    ratingBar.rating = currentRating
+                    ratingBar.setIsIndicator(true)
+                    doRefresh()
+                } else {
+                    currentRating = ratingBar.rating
+                    doFilter()
+                }
             }
-            true
+            false
         }
 
         swipeLayout.isRefreshing = true
@@ -83,19 +91,66 @@ class HomeFragment: Fragment(), HomeAdapter.OnAdapterInteraction {
 
 
         swipeLayout.setOnRefreshListener {
-            adapter.movies = arrayListOf()
-            currentPage = 1
-            viewModel.loadData(currentPage)
+            doRefresh()
         }
 
         editSearch.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                adapter.movies = arrayListOf()
-                currentPage = 1
-                viewModel.searchMovies(editSearch.editTextString(), currentPage)
-            }
+            if (actionId == EditorInfo.IME_ACTION_SEARCH)
+                doSearch()
             false
         }
+        editSearch.doAfterTextChanged {
+            if (editSearch.editTextString().isEmpty())
+                doRefresh()
+            else
+                doSearch()
+        }
+    }
+
+    private fun doRefresh() {
+        swipeLayout.isRefreshing = true
+        adapter.movies = arrayListOf()
+        currentPage = 1
+        viewModel.loadData(currentPage)
+    }
+
+    private fun doSearch() {
+        swipeLayout.isRefreshing = true
+        adapter.movies = arrayListOf()
+        currentPage = 1
+        viewModel.searchMovies(editSearch.editTextString(), currentPage)
+    }
+
+    private fun doFilter() {
+        swipeLayout.isRefreshing = true
+        var min = 0.0
+        var max = 10.0
+        when {
+            currentRating.toInt() == 1 -> {
+                min = 0.0
+                max = 2.0
+            }
+            currentRating.toInt() == 2 -> {
+                min = 2.0
+                max = 4.0
+            }
+            currentRating.toInt() == 3 -> {
+                min = 4.0
+                max = 6.0
+            }
+            currentRating.toInt() == 4 -> {
+                min = 6.0
+                max = 8.0
+            }
+            currentRating.toInt() == 5 -> {
+                min = 8.0
+                max = 10.0
+            }
+        }
+
+        adapter.movies = arrayListOf()
+        currentPage = 1
+        viewModel.loadFilteredData(currentPage, min, max)
     }
 
 

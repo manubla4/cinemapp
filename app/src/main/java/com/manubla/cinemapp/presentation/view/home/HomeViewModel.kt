@@ -36,8 +36,9 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
                 if (config == null)
                     config = getConfiguration()
 
-                storeMovies(moviesPage.results)
+                localData.postValue(initUrls(moviesPage))
 
+                storeMovies(moviesPage.results)
                 for (movie in moviesPage.results) {
                     storeMovieGenres(movie)
                     config?.let {
@@ -45,27 +46,58 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
                     }
                 }
             }
-            localData.postValue(moviesPage)
+            else
+                localData.postValue(moviesPage)
+        }
+    }
+
+
+    fun loadFilteredData(page: Int, ratingMin: Double, ratingMax: Double) {
+        launch(Dispatchers.IO) {
+            val moviesPage = getMoviesPage(page, ratingMin, ratingMax)
+
+            if (moviesPage.fromCloud) {
+                if (config == null)
+                    config = getConfiguration()
+
+                localData.postValue(initUrls(moviesPage))
+
+                storeMovies(moviesPage.results)
+                for (movie in moviesPage.results) {
+                    storeMovieGenres(movie)
+                    config?.let {
+                        getRemoteImage(movie, it.images)
+                    }
+                }
+            } else
+                localData.postValue(moviesPage)
         }
     }
 
     fun searchMovies(query: String, page: Int) {
         launch(Dispatchers.IO) {
-            val moviesPage = searchMoviesPage(query, page)
-            for (movie in moviesPage.results) {
-                config?.let {
-                    val avgPosterSize: String = try {
-                        it.images.posterSizes[it.images.posterSizes.size / 2]
-                    } catch (e: Exception) {
-                        defaultPosterSize
-                    }
-                    val url = it.images.secureBaseUrl.plus(avgPosterSize).plus(movie.posterPath)
-                    movie.posterLocalPath = url
-                }
-            }
+            val moviesPage = initUrls(searchMoviesPage(query, page))
             localData.postValue(moviesPage)
         }
     }
+
+
+    private fun initUrls(moviesPage: MoviesPageResponse): MoviesPageResponse {
+        for (movie in moviesPage.results) {
+            config?.let {
+                val avgPosterSize: String = try {
+                    it.images.posterSizes[it.images.posterSizes.size / 2]
+                } catch (e: Exception) {
+                    defaultPosterSize
+                }
+                val url = it.images.secureBaseUrl.plus(avgPosterSize).plus(movie.posterPath)
+                movie.posterLocalPath = url
+            }
+        }
+        return moviesPage
+    }
+
+
 
     private suspend fun storeMovieGenres(movie: Movie) {
         try {
@@ -83,6 +115,12 @@ class HomeViewModel(private val moviesRepository: MoviesSourceRepository,
 
     private suspend fun getMoviesPage(page: Int): MoviesPageResponse = try {
         moviesRepository.getMoviesPage(page)
+    } catch (error: Exception) {
+        MoviesPageResponse(page, listOf(), false)
+    }
+
+    private suspend fun getMoviesPage(page: Int, ratingMin: Double, ratingMax: Double): MoviesPageResponse = try {
+        moviesRepository.getMoviesPage(page, ratingMin, ratingMax)
     } catch (error: Exception) {
         MoviesPageResponse(page, listOf(), false)
     }

@@ -1,7 +1,6 @@
 package com.manubla.cinemapp.data.repository.movies
 
 import com.manubla.cinemapp.data.dao.MovieDao
-import com.manubla.cinemapp.data.model.Genre
 import com.manubla.cinemapp.data.model.Movie
 import com.manubla.cinemapp.data.model.MovieGenre
 import com.manubla.cinemapp.data.service.response.GenreResponse
@@ -14,6 +13,15 @@ class MoviesDataStoreImplDatabase(private val movieDao: MovieDao) : MoviesDataSt
     override suspend fun getMoviesPage(page: Int): MoviesPageResponse {
         val limit = (page - 1) * pageRows
         val results = movieDao.getAllWithLimit(limit, pageRows)
+        return MoviesPageResponse(page, results, false)
+    }
+
+    override suspend fun getMoviesPage(
+        page: Int,
+        ratingMin: Double,
+        ratingMax: Double
+    ): MoviesPageResponse {
+        val results = movieDao.getAllByRating(ratingMin, ratingMax)
         return MoviesPageResponse(page, results, false)
     }
 
@@ -46,6 +54,6 @@ class MoviesDataStoreImplDatabase(private val movieDao: MovieDao) : MoviesDataSt
     }
 
     suspend fun getFavoriteMovies(): List<Movie> {
-        return movieDao.getFavoriteMovies()
+        return movieDao.getFavoriteMovies().sortedBy { it.favoriteDate }
     }
 }

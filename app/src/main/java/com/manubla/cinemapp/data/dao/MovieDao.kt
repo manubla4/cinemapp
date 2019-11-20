@@ -12,6 +12,9 @@ interface MovieDao {
     @Query("SELECT * FROM ${Movie.TABLE_NAME}")
     suspend fun getAll(): List<Movie>
 
+    @Query("SELECT * FROM ${Movie.TABLE_NAME} WHERE vote_average >= :ratingMin AND vote_average <= :ratingMax")
+    suspend fun getAllByRating(ratingMin: Double, ratingMax: Double): List<Movie>
+
     @Query("SELECT * FROM ${Movie.TABLE_NAME} LIMIT :limit, :rows")
     suspend fun getAllWithLimit(limit: Int, rows: Int): List<Movie>
 
